@@ -1,0 +1,138 @@
+/*
+ * 　輪盤
+ */
+
+#WheelPin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    color: #f01616;
+    font-size: 35px;
+    margin-top: -140px;
+    width: 35px;
+}
+
+.CircleWheel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    width: 300px;
+    height: 300px;
+    background-color: #ffffff;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.CircleWheel>.fan {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+    position: absolute;
+}
+.CircleWheel>.fan>.inner {
+    width: 50%;
+    height: 100%;
+    transform-origin: right center;
+}
+.CircleInfo {
+    padding: 20px;
+    text-align: center;
+}
+.CircleInfo>.InfoItem {
+    display: inline-block;
+}
+.CircleInfo>.InfoItem>.InfoCircle {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    display: inline-block;
+}
+.CircleInfo>.InfoItem>.InfoText {
+    display: inline-block;
+    color: #fff;
+    vertical-align: text-bottom;
+}
+
+.CircleBG {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    background-color: #e0b045;
+    border-radius: 100%;
+}
+@keyframes ballLight{
+    0%{
+        border:1px solid #f4f2e0;box-shadow:0 0 2px #f4f2e0
+    }
+    to{
+        border:1px solid #f4f2e0;box-shadow:0 0 6px #f4f2e0
+    }
+}
+.SmallCircle {
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    position: absolute;
+    border-radius: 100%;
+    animation: ballLight 1s infinite alternate-reverse linear;
+}
+.SmallCircle:nth-child(n+3) {
+    top: 50%;
+    right: 2.5px;
+    bottom: unset;
+    left: unset;
+    transform: translateY(-50%);
+}
+.SmallCircle:nth-child(n+6) {
+    top: unset;
+    right: unset;
+    bottom: 2.5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.SmallCircle:nth-child(n+9) {
+    top: 50%;
+    right: unset;
+    bottom: unset;
+    left: 2.5px;
+    transform: translateY(-50%);
+}
+.SmallCircle:nth-child(-n+2), .SmallCircle:nth-child(12) {
+    top: 2.5px;
+    right: unset;
+    bottom: unset;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.SmallCircle:nth-child(2), .SmallCircle:nth-child(12) {
+    margin-top: 22.5px;
+}
+.SmallCircle:nth-child(3), .SmallCircle:nth-child(5) {
+    margin-right: 22.5px;
+}
+.SmallCircle:nth-child(6), .SmallCircle:nth-child(8) {
+    margin-bottom: 22.5px;
+}
+.SmallCircle:nth-child(9), .SmallCircle:nth-child(11) {
+    margin-left: 22.5px;
+}
+
+.SmallCircle:nth-child(3), .SmallCircle:nth-child(11) {
+    margin-top: calc(-25% + 5px);
+}
+.SmallCircle:nth-child(2), .SmallCircle:nth-child(6) {
+    margin-left: calc(25% - 5px);
+}
+.SmallCircle:nth-child(5), .SmallCircle:nth-child(9) {
+    margin-top: calc(25% - 5px);
+}
+.SmallCircle:nth-child(8), .SmallCircle:nth-child(12) {
+    margin-left: calc(-25% + 5px);
+}

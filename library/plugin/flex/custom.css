@@ -1,0 +1,3 @@
+#header .logo, #header .link-to-top-page { /*, #header .language-selector*/
+    display: none!important;
+}

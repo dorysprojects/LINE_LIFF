@@ -1,0 +1,43 @@
+/*
+ * 九宮格
+ */
+
+.box-wrap {
+    text-align: center;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vmin;
+    background-color: #e0b045;
+    border-radius: 10px;
+}
+
+#StartBtn {
+    cursor: pointer;
+    background-color: #e77085;
+    color: #fff;
+}
+
+.box-wrap>.square {
+    width: calc((70vmin/3) - (1vmin*2));
+    height: calc((70vmin/3) - (1vmin*2));
+    /* line-height: calc((70vmin/3) - (1px*2*3)); */
+    padding: 10px 5px;
+    margin: 1vmin;
+    border-radius: 10%;
+    float: left;
+    background-color: #ffffff;
+    border: 2px solid #e7706f;
+    color: #e7706f;
+}
+
+.box-wrap>.square.none {
+    background-color: #c8c8c8;
+}
+
+.box-wrap>.square.active {
+    background-color: #fce93d;
+    border-color: #ffffff;
+}
