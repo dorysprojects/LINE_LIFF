@@ -1,0 +1,1 @@
+<input id="{#$item.name#}" name="fields{#$_subject#}[{#$item.name#}]" type="{#$item.type#}" class="{#$item.class#}" value="{#$item.value#}" />

@@ -1,0 +1,1 @@
+<textarea id="editor1" name="fields{#$_subject#}[{#$item.name#}]" {#if $item.disabled#}disabled{#/if#} class="editor1" rows="10" cols="80">{#$item.value#}</textarea>

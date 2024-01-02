@@ -1,0 +1,273 @@
+/*
+ * 搖搖抽獎
+ */
+
+#deviceConfirm {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    z-index: 3;
+    text-align: center;
+    transition: all 0.4s;
+    display: none;
+}
+
+#deviceConfirm.active {
+    opacity: 0.3;
+    transform: scale(0);
+}
+
+#deviceConfirm #deviceConfirmBtn {
+    margin-top: 40vh;
+}
+#deviceConfirm #deviceConfirmBtn.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    border-radius: 6px;
+}
+#deviceConfirm #deviceConfirmBtn.btn-primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+#deviceConfirm h6 {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #5ea2dc;
+}
+
+
+.shakeGame {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 500px;
+    height: 100vh;
+}
+
+@media screen and (max-width: 767px) {
+    .shakeGame {
+        height: 90vh;
+    }
+    .shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg img {
+        width: 25%;
+    }
+    .shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg .remindIcon, .shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg .remindIcon2 {
+        margin:5px auto 10px;
+    }
+    .shakeGameBG .DialogBox .DialogBoxInfo .remind h2 {
+        font-size: 18px;
+    }
+    .shakeGameBG .DialogBox>img {
+        top: -6%!important;
+    }
+}
+
+.shakeGameBG {
+    position: absolute;
+    width: 100%;
+    padding-bottom: 100%;
+    top: 0;
+}
+.shakeGameBG>.InsideCircle {
+    width: 80%;
+    height: 80%;
+    background-color: #fff3cc;
+    border: 25px solid #ad3639;
+    border-radius: 100%;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px #e79c28;
+}
+
+.shakeGameBG .hand {
+    position: absolute;
+    width: 50%;
+    padding-bottom: 70%;
+    background-image: url(../shakephone.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    left: 25%;
+    top:20%;
+    transform-origin: center bottom;
+}
+
+.shakeGameBG .hand.animation {
+    transform: rotate(0deg);
+    animation: handAnimation 1.5s infinite;
+}
+
+.shakeGameBG .DialogBox {
+    position: absolute;
+    width: 100%;
+    height: 66.14%;
+    left: 0;
+    top: 66.14%;
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo {
+    margin: 85px 45px;
+    height: 75%;
+    position: relative;
+    border: 10px #fce93d solid;
+    border-radius: 20px;
+    background-color: #00000060;
+    text-align: center;
+    padding-top: 10%;
+}
+
+.shakeGameBG .DialogBox>img {
+    top: -10%;
+    left: 50%;
+    position: absolute;
+    width: 40%;
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg {
+    padding-left: 0px;
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg.animation {
+    animation: rrll 0.5s infinite;
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg img {
+    max-width: 65px;
+    display: none;
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg .remindIcon, .shakeGameBG .DialogBox .DialogBoxInfo .remind .remindImg .remindIcon2 {
+    margin: 15px auto;
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo .remind #playGame {
+    display: none;
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo .remind #playGame.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.shakeGameBG .DialogBox .DialogBoxInfo .remind h2 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+#gift {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+#gift:after {
+    display: block;
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    opacity: 0.75;
+}
+
+#gift.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#gift .giftImg {
+    position: relative;
+    width: 80%;
+    max-width: 500px;
+    margin: 15vh auto 0px;
+    z-index: 5;
+    background-color: #337ab7;
+    padding: 25px 35px 30px;
+}
+
+#gift .giftImg h2 {
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+
+@keyframes rrll{
+    0%{
+        padding-left: 15px;
+    }
+
+    50%{
+        padding-left: 0px;
+        padding-right: 15px;
+    }
+    100%{
+        padding-left: 15px;
+        padding-right:0px;
+    }
+}
+
+
+
+@keyframes  handAnimation{
+    0%{
+        transform: rotate(0deg);
+    }
+    25%{
+        transform: rotate(20deg);
+    }
+    50%{
+        transform: rotate(0deg);
+    }
+    75%{
+        transform: rotate(-20deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+
+
+#playGame {
+    width: 30%;
+    margin-bottom: 10px;
+    margin-top: 8%;
+    font-weight: 600;
+}
+
+#playGame.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    border-radius: 6px;
+}
+
+#playGame.btn-primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
