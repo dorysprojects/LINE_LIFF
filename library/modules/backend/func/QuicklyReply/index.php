@@ -35,5 +35,3 @@ $TPL->assign('columns', $columns);
 $TPL->assign('columnsType', $columnsType);
 $TPL->assign('rows', $rows);
 $TPL->assign('nosave', 0);
-
-?>

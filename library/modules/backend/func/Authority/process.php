@@ -29,8 +29,8 @@
         }
         $SwitchCtn = 0;
         if($_this->my['fields']['subject']['authority']){
-            foreach ($_this->my['fields']['subject']['authority'] as $_Module => $authorityValue) {
-                foreach ($authorityValue as $_Action => $_Switch) {
+            foreach ($_this->my['fields']['subject']['authority'] as $authorityValue) {
+                foreach ($authorityValue as $_Switch) {
                     if($_Switch==='on'){
                         $SwitchCtn++;
                     }
@@ -81,8 +81,8 @@
         }
         $SwitchCtn = 0;
         if($_this->my['fields']['subject']['authority']){
-            foreach ($_this->my['fields']['subject']['authority'] as $_Module => $authorityValue) {
-                foreach ($authorityValue as $_Action => $_Switch) {
+            foreach ($_this->my['fields']['subject']['authority'] as $authorityValue) {
+                foreach ($authorityValue as $_Switch) {
                     if($_Switch==='on'){
                         $SwitchCtn++;
                     }
@@ -101,7 +101,7 @@
         }else{
             $return = $PS->UpdateRow($_this, $_Module);
         }
-	    echo json_encode(array('state' => $return['state'], 'msg' => $return['msg']));
+	    echo json_encode(array('state' => $return['state'], 'msg' => $return['msg'], 'fields' => $_this->my['fields']));
     }
     
     function DeleteMultiRows($_this, $_Module){
@@ -133,5 +133,3 @@ if (function_exists($ps))
 else
 	echo $ps . '請求不存在';
 exit;
-
-?>

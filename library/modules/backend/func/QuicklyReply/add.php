@@ -10,5 +10,3 @@ $columns[] = array(
 );
 $TPL->assign('columns', $columns);
 $TPL->assign('FormType', 'quicklyreply');
-
-?>

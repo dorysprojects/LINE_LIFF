@@ -31,6 +31,10 @@ if(!empty($LineMemberData)){
 $TPL->assign('FollowStatusList', $FollowStatusList);
 
 $SqlColumnList = array(
+    "tablename",
+    "prev",
+    "node",
+    "next",
     "viewA",
     "viewB",
     "viewC",
@@ -99,8 +103,11 @@ $ModuleNameList = array(
         "RichMenu" => "主選單",
         "CustomerService" => "線上客服",
         "liff" => "liff 列表",
+    //訂單管理
+        "Payment" => "付款方式",
     //系統管理
         "Parameter" => "參數管理",
+        "GoldFlow" => "金流管理",
         "Authority" => "權限管理",
         "debug" => "Debug",
 );
@@ -125,5 +132,3 @@ $ActionNameList = array(
     "NotifyMsg" => "Notify連動訊息",
 );
 $TPL->assign('ActionNameList', $ActionNameList);
-
-?>

@@ -175,5 +175,3 @@ else
 	echo $ps . '請求不存在';
 exit;
 
-?>
-

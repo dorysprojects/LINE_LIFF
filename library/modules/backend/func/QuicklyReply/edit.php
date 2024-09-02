@@ -19,5 +19,3 @@ $columns[] = array(
 $TPL->assign('columns', $columns);
 $TPL->assign('row', $row);
 $TPL->assign('FormType', 'quicklyreply');
-
-?>
