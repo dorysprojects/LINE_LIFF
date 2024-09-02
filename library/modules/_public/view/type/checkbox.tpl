@@ -4,7 +4,12 @@
 {#/if#}
 <input name="fields{#$_subject#}[{#$item.name#}]" type="hidden" value="{#$item.value#}">
 {#foreach $item.options as $optionkey=>$optionitem#}
-    <input name="{#$_subject#}{#$item.name#}" type="checkbox" class="minimal {#$item.class#}" value="{#$optionkey#}" {#if in_array($optionkey, $item.optionVal)#}checked{#/if#} {#if $item.disabled#}disabled{#/if#}>{#$optionitem#}
+    <input name="{#$_subject#}{#$item.name#}" 
+      type="checkbox"
+      class="minimal {#$item.class#}"
+      value="{#$optionkey#}"
+      {#if $item.optionVal && in_array($optionkey, $item.optionVal)#}checked{#/if#}
+      {#if $item.disabled#}disabled{#/if#}>{#$optionitem#}
 {#/foreach#}
 <script>
     var changeCtn = 0;

@@ -42,5 +42,3 @@ if(defined('__Parameter') && !empty(__Parameter)){
 }
 $TPL->assign('columns', $columns);
 $TPL->display($_FromViewPath."/add.tpl");
-
-?>

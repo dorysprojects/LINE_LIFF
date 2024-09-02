@@ -96,5 +96,3 @@ $TPL->assign('AuthorityList', $AuthorityList);
 
 $TPL->assign('columns', $columns);
 $TPL->assign('FormType', 'authority');
-
-?>

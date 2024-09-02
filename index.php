@@ -115,6 +115,9 @@
                 }
                 if(file_exists($_FromFuncPath.$_Module."/".$_Action.".php")){
                     include_once($_FromFuncPath."init.php");
+                    if(file_exists($_FromFuncPath.$_Module."/init.php")){
+                        include_once($_FromFuncPath.$_Module."/init.php");
+                    }
                     $TPL->assign('js', $kHTML->getJsFile($_FromResPath.'/js.php'));
                     include_once($_FromFuncPath.$_Module."/".$_Action.".php");
                     switch ($_Module) {
@@ -164,5 +167,3 @@
                 break;
         }
     }
-
-?>

@@ -6,16 +6,18 @@ class kSQL{
     private $DBuser = NULL;
     private $DBpwd = NULL;
     private $DBname = NULL;
-    private $DBlink = NULL;
+    public $DBlink = NULL;
     private $DBtable = NULL;
     private $SelectTable = NULL;
-    public $SystemRow = NULL;
     private $DBresult = NULL;
     private $CREATE_SQL = NULL;
     private $INSERT_SQL = NULL;
     private $SET_INDEX = NULL;
     private $PRIMARY_KEY_ID = NULL;
     private $AUTO_INCREMENT = NULL;
+    private $insertId = 0;
+
+    public $SystemRow = NULL;
 
     public $echoSQLFlag = NULL;
     public $echoQueryFlag = NULL;
@@ -423,6 +425,7 @@ class kSQL{
             }
 
             $this->DBresult = $this->sql($this->Build);
+            $this->insertId = mysqli_insert_id($this->DBlink);
             if($this->query['action']=='INSERT' || $this->query['action']=='REPLACE'){
                 $this->SystemRow[0]['propertyA'] = (!empty($this->SystemRow[0]['propertyA'])) ? $this->SystemRow[0]['propertyA']+1 : 1;
                 $this->sql("UPDATE $this->DBtable SET propertyA='".$this->SystemRow[0]['propertyA']."' WHERE id='1'");
@@ -440,6 +443,10 @@ class kSQL{
         if(!empty($query)){
             return mysqli_fetch_array($query, MYSQLI_ASSOC);
         }
+    }
+
+    public function getInsertId(){
+        return $this->insertId;
     }
 
     public function sql($query = NULL){
@@ -472,5 +479,3 @@ class kSQL{
         }
     }
 }
-
-?>
