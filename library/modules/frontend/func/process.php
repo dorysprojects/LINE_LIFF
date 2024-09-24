@@ -1,5 +1,73 @@
 <?php
 
+function exportCostCsv(){
+    $id = kCore_get('id');
+    $SQL = new kSQL('place'); //資料庫物件
+    $getStroke = $SQL->SetAction('select')
+                ->SetWhere("tablename='place'")
+                ->SetWhere("next='stroke'")
+                ->SetWhere("id='$id'")
+                ->BuildQuery();
+    $subject = !empty($getStroke[0]) ? $getStroke[0]['propertyB'] : array();
+    $cost = !empty($getStroke[0]) ? $getStroke[0]['subject']['cost'] : array();
+    $members = !empty($getStroke[0]) ? $getStroke[0]['subject']['members'] : array();
+    $column = array(
+        'description' => '品項',
+        'totalPrice' => '總金額',
+        'note' => '備註',
+        'place' => '地點',
+        'datetime' => '日期時間',
+        'shareType' => '權重/金額',
+        'memberName' => '成員',
+        'shareData' => '比例',
+        'sharePrice' => '所佔金額',
+        'payer' => '代表付款人',
+        'rePaid' => '已付款',
+    );
+    $shareType = array(
+        'weight' => '權重',
+        'price' => '金額',
+    );
+    if(!empty($cost)){
+        $filename = "{$subject}-消費記帳.csv";
+        header("Content-Type: text/csv; charset=UTF-8");
+        header("Content-Disposition: attachment; filename=$filename");
+        $fp = fopen('php://output', 'w');
+        fwrite($fp, "\xEF\xBB\xBF");
+        fputcsv($fp, array_values($column));
+        foreach ($cost as $fields) {
+            $row = array(
+                $fields['description'],
+                $fields['totalPrice'],
+                $fields['note'],
+                $fields['place'],
+                $fields['datetime'],
+                $shareType[$fields['shareType']],
+            );
+            fputcsv($fp, $row);
+            if(!empty($members)){
+                foreach ($members as $memberId => $memberName) {
+                    $memberRow = array(
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        $memberName,
+                        !empty($fields['shareMembers'][$memberId]) ? $fields['shareMembers'][$memberId] : '0',
+                        !empty($fields['membersSharePrice'][$memberId]) ? $fields['membersSharePrice'][$memberId] : '0',
+                        $fields['payer'] == $memberId ? 'V' : '',
+                        $fields['repaidMembers'][$memberId] ? 'V' : '',
+                    );
+                    fputcsv($fp, $memberRow);
+                }
+            }
+        }
+        fclose($fp);
+    }
+}
+
 function exeEinvoice($_this) {
     $return['msg'] = "";
     include __LIB . "/core/class/kEinvoice.php";
@@ -49,7 +117,7 @@ function exeEinvoice($_this) {
                 $qryInvDetail = $kEinvoice->qryInvDetail(array(
                     'invNum' => $_this->my['fields']['invTxt'] . $_this->my['fields']['invNum'],//*必填，發票號碼
                     'invTerm' => $invYear . $invTermList[$invMonth],//*必填，年份(民國)月份
-//                    'invDate' => $invYear . $invMonth . $invDay,//日期
+                    // 'invDate' => $invYear . $invMonth . $invDay,//日期
                     'randomNumber'=> $_this->my['fields']['randomNumber'],//*必填，隨機碼
                 ));
                 $return['Data2'] = $qryInvDetail;

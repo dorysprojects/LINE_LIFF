@@ -19,7 +19,7 @@ $SelectStroke = !empty($_SESSION[__DOMAIN][_Module]['SelectStroke']) ? $_SESSION
 $SQL = new kSQL($_Module); //資料庫物件
 $manager_list = $SQL->SetAction("select")
                     ->SetWhere("next='user'")//level
-                    ->SetWhere("prev='". $userId ."'")//prevlevel
+                    ->SetWhere("prev='$userId'")//prevlevel
                     ->BuildQuery();
 
 /*
@@ -27,7 +27,7 @@ $manager_list = $SQL->SetAction("select")
  */
 $View_list = $SQL->SetAction("select")
                 ->SetWhere("next='user'")//level
-                ->SetWhere("propertyA='". $userId ."'")//userId
+                ->SetWhere("propertyA='$userId'")//userId
                 ->BuildQuery();
 
 $SelectList = array(
@@ -42,8 +42,8 @@ if(!empty($View_list)){
     $SelectList = array_merge($SelectList, array_column($View_list, 'prev'));
 }
 if(!empty($manager_list)){
-    foreach ($manager_list as $key => $value) {
-        $ManagerList[$value['propertyA']] = $value;
+    foreach ($manager_list as $manager) {
+        $ManagerList[$manager['propertyA']] = $manager;
     }
 }
 
@@ -51,49 +51,55 @@ $userRows = $SQL_LineMember->SetAction("select")
                             ->SetWhere("tablename='member'")
                             ->SetWhere("prev='line'")
                             ->SetWhere("next='myself'")
-                            ->SetWhere("propertyA in ('". implode("','", $SelectList) ."')")//userId
+                            ->SetWhere("propertyA IN ('". implode("','", $SelectList) ."')")//userId
                             ->BuildQuery();
 $userList = array();
 if(!empty($userRows)){
-    foreach ($userRows as $key => $value) {
-        $userList[$value['propertyA']] = $value;
+    foreach ($userRows as $user) {
+        $userList[$user['propertyA']] = $user;
     }
 }
 
 $GetStroke = $SQL->SetAction('select')
                 ->SetWhere("tablename='place'")
                 ->SetWhere("next='stroke'")
-                ->SetWhere("propertyA in ('". implode("','", $SelectList) ."')")//userId
+                ->SetWhere("propertyA IN ('". implode("','", $SelectList) ."')")//userId
                 ->BuildQuery();
 if(!empty($SelectStroke) && !empty($GetStroke)){
-    foreach ($GetStroke as $key => $value) {
-        if($value['id']==$SelectStroke){
-            $SelectStrokeItem = $value;
+    foreach ($GetStroke as $stroke) {
+        if($stroke['id'] == $SelectStroke){
+            $SelectStrokeItem = $stroke;
         }
     }
 }
 $SelectStrokeList = array();
-if(!empty($SelectStrokeItem['subject']['stroke'])){
-    foreach ($SelectStrokeItem['subject']['stroke'] as $key => $value) {
-        if($value){
-            foreach ($value as $key2 => $value2) {
-                if(!in_array($value2, $SelectStrokeList)){
-                    $SelectStrokeList[] = $value2;
+$members = array();
+if(!empty($SelectStrokeItem)){
+    if(!empty($SelectStrokeItem['subject']['stroke'])){
+        foreach ($SelectStrokeItem['subject']['stroke'] as $strokeList) {
+            if($strokeList){
+                foreach ($strokeList as $stroke) {
+                    if(!in_array($stroke, $SelectStrokeList)){
+                        $SelectStrokeList[] = $stroke;
+                    }
                 }
             }
         }
     }
+    if(!empty($SelectStrokeItem['subject']['members'])){
+        $members = $SelectStrokeItem['subject']['members'];
+    }
 }
+    
 $GetPlace = $SQL->SetAction('select')
                 ->SetWhere("tablename='place'")
                 ->SetWhere("next='myself'")
-                ->SetWhere("propertyA in ('". implode("','", $SelectList) ."')")//userId
-                //->SetWhere("propertyB in ('". implode("','", $SelectStrokeList) ."')", $SelectStrokeList ? 1 : 0)
+                ->SetWhere("propertyA IN ('". implode("','", $SelectList) ."')")//userId
+                //->SetWhere("propertyB IN ('". implode("','", $SelectStrokeList) ."')", $SelectStrokeList)
                 ->BuildQuery();
-//print_r($GetPlace);
 if(!empty($GetPlace)){
     foreach ($GetPlace as $key => $value) {
-        $GetPlace[$key]['owner'] = ($value['propertyA']===$userId) ? 1 : 0;
+        $GetPlace[$key]['owner'] = ($value['propertyA']===$userId);
         $place = $value['subject'];
         switch($place['business_status']){
             case 'CLOSED_TEMPORARILY':
@@ -125,7 +131,6 @@ if(!empty($GetPlace)){
                             }
                         }
                     }
-                    //print_r($periods);
                     $GetPlace[$key]['subject']['periods'] = $periods;
                     $successCtn = 0;
                     $NowWeekDay = date('w');
@@ -150,7 +155,6 @@ if(!empty($GetPlace)){
                             }
                         }
                     }
-
                     $Text = ($successCtn>0) ? '營業中' : '休息中';
                     $Class = ($successCtn>0) ? 'success' : 'danger';
                     $Style = '';
@@ -175,6 +179,7 @@ $TPL->assign('GetPlace', $GetPlace);
 $TPL->assign('GetStroke', $GetStroke);
 $TPL->assign('SelectStroke', $SelectStroke);
 $TPL->assign('SelectStrokeItem', $SelectStrokeItem);
+$TPL->assign('members', $members);
 $TPL->assign('manager_list', $manager_list);
 $TPL->assign('ManagerList', $ManagerList);
 $TPL->assign('userList', $userList);

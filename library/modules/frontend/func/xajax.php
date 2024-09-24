@@ -1019,19 +1019,26 @@ function SaveRemark($id=NULL, $Remarks=NULL){
     return $objResponse;
 }
 
-function SaveInfo($id=NULL, $action=NULL, $SaveJson){
+function SaveInfo($id=NULL, $column=NULL, $data=NULL){
     $objResponse = new xajaxResponse();
-
-    if($id){
+    if(!empty($id)){
         $SQL_place = new kSQL('place');
         $place = $SQL_place->SetAction('select')
                             ->SetWhere("id='". $id ."'")
                             ->BuildQuery();
-        if($place[0] && $place[0]['subject']){
+        if(!empty($place[0]) && !empty($place[0]['subject'])){
             $subject = $place[0]['subject'];
-            $subject[$action] = $SaveJson;
+            if($column === 'subject'){
+                if(!empty($data)){
+                    foreach($data as $dataColumn => $dataValue){
+                        $subject[$dataColumn] = $dataValue;
+                    }
+                }
+            }else{
+                $subject[$column] = $data;
+            }
             $UpdateInfo = $SQL_place->SetAction('update')
-                                    ->SetWhere("id='". $id ."'")
+                                    ->SetWhere("id='$id'")
                                     ->SetValue('subject', json_encode($subject))
                                     ->BuildQuery();
         }
@@ -1041,13 +1048,11 @@ function SaveInfo($id=NULL, $action=NULL, $SaveJson){
     }else{
         $objResponse->alert("儲存失敗");
     }
-
     return $objResponse;
 }
 
 function Session($Key=NULL, $Val=NULL, $Reload=0){
     $objResponse = new xajaxResponse();
-
     $_SESSION[__DOMAIN][_Module][$Key] = $Val;
     if($Reload){ $objResponse->script('location.reload();'); }
     return $objResponse;

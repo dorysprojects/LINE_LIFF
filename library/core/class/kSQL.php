@@ -25,81 +25,106 @@ class kSQL{
     public $query = NULL;
     public $Build = NULL;
 
-    function __construct($DBtable = NULL, $DBoption = NULL, $INDEX = NULL) {
-        if($DBtable){
-            $this->DBhost = !empty($DBoption['DBhost']) ? $DBoption['DBhost'] : __DB_HOST;
-            $this->DBuser = !empty($DBoption['DBuser']) ? $DBoption['DBuser'] : __DB_USER;
-            $this->DBpwd = !empty($DBoption['DBpwd']) ? $DBoption['DBpwd'] : __DB_PWD;
-            $this->DBname = !empty($DBoption['DBname']) ? $DBoption['DBname'] : __DB_NAME;
-            $this->DBtable = $DBtable;
+    function __construct($DBtable = NULL, $DBoption = NULL, $columnIndex = NULL) {
+        $this->DBhost   = !empty($DBoption['DBhost'])   ? $DBoption['DBhost']   : __DB_HOST;
+        $this->DBuser   = !empty($DBoption['DBuser'])   ? $DBoption['DBuser']   : __DB_USER;
+        $this->DBpwd    = !empty($DBoption['DBpwd'])    ? $DBoption['DBpwd']    : __DB_PWD;
+        $this->DBname   = !empty($DBoption['DBname'])   ? $DBoption['DBname']   : __DB_NAME;
+        $this->setTable($DBtable);
+        if(empty($this->DBhost) || empty($this->DBuser) ||  empty($this->DBpwd) || empty($this->DBname) || empty($this->DBtable)){
+            die('資料庫連線資訊不完整!!');
+        }
 
-            $this->DBlink = mysqli_connect($this->DBhost, $this->DBuser, $this->DBpwd) or die('連線失敗!!');
-            mysqli_select_db($this->DBlink, $this->DBname);
-            mysqli_query($this->DBlink, "SET NAMES 'utf8mb4'");
-            mysqli_query($this->DBlink, "set character_set_results='utf8mb4'");
-            $this->SelectTable = mysqli_query($this->DBlink, "select 1 from $this->DBtable");
+        $this->setConnection();
+        
+        $this->createTable($columnIndex);
+        $this->SystemRow = $this->getSystem();
+    }
 
-            $this->CREATE_SQL = "CREATE TABLE $this->DBtable (
-              id int(11) NOT NULL,
-              tablename varchar(255) DEFAULT '$this->DBtable',
-              prev char(14) DEFAULT 'root',
-              node char(14) DEFAULT NULL,
-              next char(14) DEFAULT 'myself',
-              subject text,
-              content text,
-              viewA char(10) DEFAULT NULL,
-              viewB char(10) DEFAULT NULL,
-              viewC char(10) DEFAULT NULL,
-              viewD char(10) DEFAULT NULL,
-              viewE char(10) DEFAULT NULL,
-              sortA int(11) DEFAULT NULL,
-              sortB int(11) DEFAULT NULL,
-              sortC int(11) DEFAULT NULL,
-              sortD int(11) DEFAULT NULL,
-              sortE int(11) DEFAULT NULL,
-              propertyA varchar(255) NOT NULL,
-              propertyB varchar(255) NOT NULL,
-              propertyC varchar(255) NOT NULL,
-              propertyD varchar(255) NOT NULL,
-              propertyE varchar(255) NOT NULL,
-              prev1 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-              prev2 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-              prev3 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-              prev4 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-              prev5 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-              lang varchar(10) DEFAULT 'zh_TW',
-              create_at datetime DEFAULT NULL,
-              update_at datetime DEFAULT NULL
-            ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8";
+    public function setTable($table) {
+        $this->DBtable = $table;
+    }
+    
+    private function checkConnection($connection) {
+        return mysqli_ping($connection);
+    }
 
-            $this->PRIMARY_KEY_ID = "ALTER TABLE $this->DBtable ADD PRIMARY KEY (`id`);";
+    private function setConnection() {
+        global $publicDatabaseConnection;
+        $connectionKey = $this->DBhost . '_' . $this->DBuser . '_' . $this->DBpwd;
+        if(!empty($publicDatabaseConnection[$connectionKey]) && $this->checkConnection($publicDatabaseConnection[$connectionKey])){
+            $this->DBlink = $publicDatabaseConnection[$connectionKey];
+            return;
+        }
 
-            $this->AUTO_INCREMENT = "ALTER TABLE $this->DBtable MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;";
+        $publicDatabaseConnection[$connectionKey]
+            = $this->DBlink
+            = mysqli_connect($this->DBhost, $this->DBuser, $this->DBpwd);
+        if($this->DBlink === false)
+            die('連線失敗!!');
+        mysqli_select_db($this->DBlink, $this->DBname);
+        mysqli_query($this->DBlink, "SET NAMES 'utf8mb4'");
+        mysqli_query($this->DBlink, "SET character_set_results='utf8mb4'");
+    }
 
-            $propertyC = "";
-            switch($this->DBtable){
-                case '':
-                    $propertyC = "";
-                    break;
+    private function createTable($columnIndex = NULL) {
+        $this->SelectTable = mysqli_query($this->DBlink, "SELECT 1 from $this->DBtable LIMIT 1;");
+        if($this->SelectTable){
+            return true;
+        }
+        $this->CREATE_SQL = "CREATE TABLE $this->DBtable (
+            id int(11) NOT NULL,
+            tablename varchar(255) DEFAULT '$this->DBtable',
+            prev char(14) DEFAULT 'root',
+            node char(14) DEFAULT NULL,
+            next char(14) DEFAULT 'myself',
+            subject text,
+            content text,
+            viewA char(10) DEFAULT NULL,
+            viewB char(10) DEFAULT NULL,
+            viewC char(10) DEFAULT NULL,
+            viewD char(10) DEFAULT NULL,
+            viewE char(10) DEFAULT NULL,
+            sortA int(11) DEFAULT NULL,
+            sortB int(11) DEFAULT NULL,
+            sortC int(11) DEFAULT NULL,
+            sortD int(11) DEFAULT NULL,
+            sortE int(11) DEFAULT NULL,
+            propertyA varchar(255) NOT NULL,
+            propertyB varchar(255) NOT NULL,
+            propertyC varchar(255) NOT NULL,
+            propertyD varchar(255) NOT NULL,
+            propertyE varchar(255) NOT NULL,
+            prev1 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+            prev2 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+            prev3 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+            prev4 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+            prev5 varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+            lang varchar(10) DEFAULT 'zh_TW',
+            create_at datetime DEFAULT NULL,
+            update_at datetime DEFAULT NULL
+          ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8";
+
+        $this->PRIMARY_KEY_ID = "ALTER TABLE $this->DBtable ADD PRIMARY KEY (`id`);";
+
+        $this->AUTO_INCREMENT = "ALTER TABLE $this->DBtable MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;";
+
+        $propertyC = "";
+        switch($this->DBtable){
+            case '':
+                $propertyC = "";
+                break;
+        }
+
+        $this->INSERT_SQL = "INSERT INTO $this->DBtable (`id`, `tablename`, `prev`, `node`, `next`, `subject`, `content`, `viewA`, `viewB`, `viewC`, `viewD`, `viewE`, `sortA`, `sortB`, `sortC`, `sortD`, `sortE`, `propertyA`, `propertyB`, `propertyC`, `propertyD`, `propertyE`, `prev1`, `prev2`, `prev3`, `prev4`, `prev5`, `lang`, `create_at`, `update_at`) VALUES
+        (1, 'SYSTEM', 'SYSTEM', 'SYSTEM', 'SYSTEM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, '0', '', '".$propertyC."', '', '', '', '', '', '', '', 'zh_TW', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."');";
+
+        if (mysqli_query($this->DBlink, $this->CREATE_SQL) && mysqli_query($this->DBlink, $this->PRIMARY_KEY_ID) && mysqli_query($this->DBlink, $this->AUTO_INCREMENT) && mysqli_query($this->DBlink, $this->INSERT_SQL)) {
+            if(!empty($columnIndex)){
+                $this->SET_INDEX = "ALTER TABLE $this->DBtable ADD INDEX($columnIndex);";
+                mysqli_query($this->DBlink, $this->SET_INDEX);
             }
-
-            $this->INSERT_SQL = "INSERT INTO $this->DBtable (`id`, `tablename`, `prev`, `node`, `next`, `subject`, `content`, `viewA`, `viewB`, `viewC`, `viewD`, `viewE`, `sortA`, `sortB`, `sortC`, `sortD`, `sortE`, `propertyA`, `propertyB`, `propertyC`, `propertyD`, `propertyE`, `prev1`, `prev2`, `prev3`, `prev4`, `prev5`, `lang`, `create_at`, `update_at`) VALUES
-              (1, 'SYSTEM', 'SYSTEM', 'SYSTEM', 'SYSTEM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, '0', '', '".$propertyC."', '', '', '', '', '', '', '', 'zh_TW', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."');";
-
-            $this->SystemRow = $this->getSystem();
-            if($this->SelectTable){
-                return true;
-            }else{
-                if (mysqli_query($this->DBlink, "$this->CREATE_SQL") && mysqli_query($this->DBlink, "$this->PRIMARY_KEY_ID") && mysqli_query($this->DBlink, "$this->AUTO_INCREMENT") && mysqli_query($this->DBlink, "$this->INSERT_SQL")) {
-                  if($INDEX){
-                        $this->SET_INDEX = "ALTER TABLE $this->DBtable ADD INDEX($INDEX);";
-                        mysqli_query($this->DBlink, "$this->SET_INDEX");
-                    }
-                    return true;
-                }else{
-                    return false;
-                }
-            }
+            return true;
         }else{
             return false;
         }

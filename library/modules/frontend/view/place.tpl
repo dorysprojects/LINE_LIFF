@@ -237,25 +237,42 @@
                 content: "已加入"
             }
             .EditHeader {
+                font-size: 25px;
+                display: flex;
                 margin-top: -10px;
-                padding: 0px 15px;
+                padding: 5px 15px;
                 position: absolute;
                 width: 100%;
                 z-index: 2;
+                color: #fff;
+                align-items: baseline;
+                gap: 8px;
             }
-            .EditHeader>i, .EditHeader>span {
-                display: inline-block;
-                font-size: 25px;
+            .EditHeader i {
+                color: #fff;
             }
-            .EditHeader>i.Left {
-                margin-top: 5px;
-                margin-right: 10px;
-                float: left;
+            .EditHeader>.group-item {
+                flex: 1;
+                text-align: center;
             }
-            .EditHeader>i.Right {
-                margin-top: 5px;
-                margin-left: 10px;
-                float: right;
+            .EditHeader>.group-item>.content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: x-small;
+            }
+            .bottomBtnArea {
+                position: absolute;
+                bottom: 5px;
+                font-size: 20px;
+                transform: translateX(-50%);
+                color: #f58e31;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .bottomBtnArea>.addBtn {
+                font-size: 50px;
             }
 
             #addarea>#add_todo, #addarea>#add_note, #addarea>#add_cost {
@@ -266,59 +283,24 @@
                 overflow: auto;
                 height: -webkit-fill-available;
                 text-align: left;
-                margin-top: 15px;
-                padding-top: 10px;
+                padding-top: 35px;
                 z-index: 1;
             }
-            .EditBody>div {
+            #add_cost>.EditBody {
+                display: flex;
+                flex-direction: column;
+            }
+            #add_cost>.costView  {
+                overflow: auto;
+                height: -webkit-fill-available;
+                margin-top: 25px;
+                padding-top: 35px;
+            }
+            .form-checkbox[type=checkbox] {
                 position: relative;
-                margin-top: 10px;
-            }
-            .EditBody>div>i.fa-trash-o {
-                position: absolute;
-                font-size: 20px;
-                color: #ff4646;
-                margin-top: 6px;
-                left: 5px;
-            }
-            .EditBody textarea.form-control {
-                width: -webkit-fill-available;
-                display: inline-block;
-                padding-left: 30px;
-                border: none;
-                border-radius: unset;
-                resize: none;
-            }
-            .EditBody input[type=text].form-control {
-                width: calc(75% - 5px);
-                display: inline-block;
-                padding-left: 30px;
-                border: none;
-                border-radius: unset;
-                resize: none;
-            }
-            .EditBody input[type=number].form-control {
-                width: 25%;
-                display: inline-block;
-                border: none;
-                border-radius: unset;
-                resize: none;
-            }
-            #add_todo textarea.form-control {
-                padding-right: 30px;
-            }
-            .flat-green[type=checkbox] {
-                position: absolute;
-                right: 20px;
-                margin-top: 10px;
-                cursor: pointer;
-                font-size: 16px;
-                width: 1px;
-                height: 1px;
-                background-color: #e6e6e6;
                 visibility: hidden;
             }
-            .flat-green[type=checkbox]:after {
+            .form-checkbox[type=checkbox]:after {
                 z-index: 1;
                 position: absolute;
                 display: inline-block;
@@ -329,45 +311,360 @@
                 margin-top: -4px;
                 margin-left: -4px;
                 visibility: visible;
-                {#if 1#}
-                    content: " ";
-                    background-color: #d7dcde;
-                    color: #fff;
-                    border-radius: 5px;
-                {#else#}
-                    content: "✓";
-                    color: #d7dcde;
-                    border-radius: 50%;
-                    border: 1px solid;
-                {#/if#}
             }
-            .flat-green[type=checkbox]:checked:after {
-                {#if 1#}
-                    content: "✓";
-                    background-color: #1abc9c;
-                {#else#}
-                    color: #1abc9c;
-                {#/if#}
+            .form-checkbox.square[type=checkbox]:after {
+                content: " ";
+                background-color: #d7dcde;
+                color: #fff;
+                border-radius: 5px;
+            }
+            .form-checkbox.circle[type=checkbox]:after {
+                content: "✓";
+                color: #d7dcde;
+                border-radius: 50%;
+                border: 1px solid;
+            }
+            .form-checkbox.fontAwesome[type=checkbox]:after {
+                color: #bfbfbf;
+                font-size: large;
+                font-family: 'FontAwesome';
+                content: attr(data-content);
+            }
+            .form-checkbox.square[type=checkbox]:checked:after {
+                content: "✓";
+                background-color: #f58e31;
+            }
+            .form-checkbox.fontAwesome[type=checkbox]:checked:after,
+            .form-checkbox.circle[type=checkbox]:checked:after {
+                color: #f58e31;
+            }
+            .editCostArea {
+                display: none;
+                overflow: auto;
+                height: -webkit-fill-available;
+                text-align: left;
+                margin-top: 40px;
+                padding-top: 10px;
+                z-index: 1;
+            }
+            .editCostArea input[type=text],
+            .editCostArea input[type=number] {
+                display: inline-block;
+                width: 100%;
+            }
+            .form-floating:has(input[type^="date"].form-control),
+            .form-floating:has(input[type^="datetime-local"].form-control) {
+                display: flex;
+            }
+            .form-floating>input[type^="date"].form-control,
+            .form-floating>input[type^="datetime-local"].form-control {
+                flex: 1;
+            }
+            .mb-3 {
+                margin-bottom: 1rem !important;
+            }
+            .button.active {
+                color: #f58e31;
+                background-color: #fff;
+            }
+            label>input[type=radio] {
+                display: none;
+            }
+
+            .inline-form-group {
+                display: inline-flex;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            .inline-form-group>.group-icon {
+                padding: 6px 12px;
+                color: #555;
+                background-color: #eee;
+                font-size: 14px;
+                text-align: center;
+                font-weight: 400;
+            }
+            .inline-form-group>.group-icon.light {
+                background-color: #f58e31;
+                color: #fff;
+            }
+            .inline-form-group>.group-item {
+                flex: 1;
+            }
+            .inline-form-group>.btn {
+                margin: 0px 3px;
+            }
+            .inline-form-group>.btn-success,
+            .inline-form-group>.btn-success:hover {
+                background-color: #f58e31;
+                color: #fff;
+                border-color: #f58e31;
+            }
+
+            .form-floating {
+                position: relative;
+            }
+            .form-floating>.form-control:focus,
+            .form-floating>.form-control:not(:placeholder-shown) {
+                padding-top: 1.625rem;
+                padding-bottom: .625rem;
+            }
+            .form-floating>.form-control {
+                padding: 1rem .75rem;
+            }
+            .form-floating>.form-control,
+            .form-floating>.form-select {
+                height: calc(3.5rem + 2px);
+                line-height: 1.25;
+            }
+            .form-floating>.form-control:focus~label,
+            .form-floating>.form-control:not(:placeholder-shown)~label,
+            .form-floating>.form-select~label {
+                opacity: .65;
+                transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+                width: auto;
+                background-color: transparent;
+            }
+            .form-floating>label {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                padding: 1rem .75rem;
+                pointer-events: none;
+                border: 1px solid transparent;
+                transform-origin: 0 0;
+                transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+                width: 100%;
+                background-color: #fff;
+            }
+            
+            .editItem-container:not(.costItem) {
+                display: flex;
+                padding: 8px 16px;
+                background-color: #f9f9f9;
+                margin: 8px 0;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                align-items: center;
+                justify-content: space-between;
+            }
+            .editItem-container>.description-container {
+                flex: 9;
+                display: flex;
+                flex-direction: column;
+                text-align: left;
+            }
+            .editItem-container>.actions {
+                flex: 1;
+                display: flex;
+                justify-content: space-around;
+                gap: 8px;
+                margin-left: 10px;
+            }
+            .editItem-container>.actions>i {
+                font-size: 20px;
+                color: #f58e31;
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+            .editItem-container .description-container>textarea {
+                border: none;
+                resize: none;
+            }
+
+            .editItem-container.costItem {
+                display: flex;
+                flex-direction: column;
+                padding: 8px;
+                background-color: #fff;
+                margin: 6px 0;
+                border-radius: 4px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+                width: 100%;
+            }
+            .repaid>.reduceList {
+                padding: 15px;
+                gap: 15px;
+            }
+            .editItem-container>.header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 14px;
+            }
+            .editItem-container>.header>.title {
+                font-size: 16px;
+                font-weight: bold;
+                color: #333;
+            }
+            .editItem-container>.header>.content {
+                color: #666;
+                display: flex;
+                gap: 2px;
+            }
+            .editItem-container>.header>.content>.member {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 26px;
+                height: 26px;
+                border-radius: 50%;
+                background-color: #f0f0f0;
+                font-size: 12px;
+                color: #333;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .editItem-container>.header>.content>.repaid-to {
+                color: #f58e31;
+            }
+            .editItem-container>.header>.content>.member.payer {
+                background-color: #f58e31;
+                color: #fff;
+            }
+            .editItem-container>.body {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 4px;
+            }
+            .editItem-container>.body>.actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 6px;
+                font-size: 14px;
+            }
+            .editItem-container>.body>.actions i {
+                color: #f58e31;
+                cursor: pointer;
+                transition: color 0.3s;
+                font-size: large;
+            }
+            .editItem-container>.details {
+                display: flex;
+                justify-content: space-between;
+                font-size: 12px;
+                color: #666;
+                margin: 4px 0;
+            }
+            
+            .vertical-box {
+                display: flex;
+                flex-direction: column;
+            }
+            .vertical-box.left {
+                align-items: flex-start;
+            }
+            .vertical-box.right {
+                align-items: flex-end;
+            }
+            .vertical-box>.title {
+                font-weight: bold;
+                color: #333;
+                font-size: 14px;
+            }
+            .vertical-box>.content {
+                color: #666;
+                font-size: 12px;
+            }
+
+            #costItemShareMembers {
+                margin-bottom: 12px;
+            }
+            .costItem-container {
+                display: flex;
+            }
+            .costItem-container>.left-panel {
+                flex: 4;
+            }
+            .costItem-container>.right-panel {
+                flex: 1;
+                text-align: center;
+                padding: 6px 12px;
+            }
+            .costItem-container .section-title {
+                text-align: center;
+                color: #78769d;
+                font-size: medium;
+            }
+            .costItem-container.title>.right-panel>.section-title {
+                display: inline-flex;
+                align-items: center;
+            }
+            .repaidTo-group {
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                vertical-align: middle;
+                flex-direction: column;
+            }
+            .repaidTo-group>.fa-dollar {
+                font-size: xx-small;
+                margin-bottom: -6px;
+                margin-left: -3px;
+            }
+            .payer {
+                color: #f58e31;
+            }
+            .costItem-container>.right-panel>.checkbox-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                gap: 10px;
+                padding: 6px 12px;
+                margin-bottom: 12px;
+            }
+            .costItem-container>.right-panel>.checkbox-container input {
+                margin: 0;
+            }
+
+            .costItem:has(input[name="costViewChart"]),
+            .costItem:has(input[name="costViewRepaidTo"]) {
+                border: none;
+            }
+            .costItem:has(input[name="costViewChart"]:checked),
+            .costItem:has(input[name="costViewRepaidTo"]:checked) {
+                border: 1px solid #f58e31;
             }
         </style>
         <div id="signature-pad" class="signature-pad">
             {#include file=$__PublicView|cat:'project_details.tpl'#}
             <div id="place_add_background" class="press_background">
                 <div id="place_add_background_area" class="press_button_area">
-                    <div class="press_button AddGroup" onclick="$(this).parent().parent().hide();$('#OwnerArea').hide();$('#ChooseActionArea').hide();$('#ShowAction_search').prop('checked', true);$('#SearchBlockArea').show();$('#RecordBlockArea').hide();$('#SearchArea').show();$('#add_place').show();$('#PlaceResult').html('');"><i class="fa fa-fw fa-map-marker"></i> 店家</div>
-                    <div class="press_button {#if $SelectStroke#}EditGroup{#else#}AddGroup{#/if#}" onclick="$(this).parent().parent().hide();$('#add_stroke').show();">
-                        <svg style="height:12px;width:15px;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-marked-alt" class="svg-inline--fa fa-map-marked-alt fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <div class="press_button AddGroup"  data-target='#add_place'>
+                        <i class="fa fa-fw fa-map-marker"></i> 店家
+                    </div>
+                    <div class="press_button {#if $SelectStroke#}EditGroup{#else#}AddGroup{#/if#}" data-target='#add_stroke'>
+                        <svg style="height:12px;width:15px;"
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="fas"
+                            data-icon="map-marked-alt"
+                            class="svg-inline--fa fa-map-marked-alt fa-w-18"
+                            role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"
+                            >
                             <path fill="#fff" d="M288 0c-69.59 0-126 56.41-126 126 0 56.26 82.35 158.8 113.9 196.02 6.39 7.54 17.82 7.54 24.2 0C331.65 284.8 414 182.26 414 126 414 56.41 357.59 0 288 0zm0 168c-23.2 0-42-18.8-42-42s18.8-42 42-42 42 18.8 42 42-18.8 42-42 42zM20.12 215.95A32.006 32.006 0 0 0 0 245.66v250.32c0 11.32 11.43 19.06 21.94 14.86L160 448V214.92c-8.84-15.98-16.07-31.54-21.25-46.42L20.12 215.95zM288 359.67c-14.07 0-27.38-6.18-36.51-16.96-19.66-23.2-40.57-49.62-59.49-76.72v182l192 64V266c-18.92 27.09-39.82 53.52-59.49 76.72-9.13 10.77-22.44 16.95-36.51 16.95zm266.06-198.51L416 224v288l139.88-55.95A31.996 31.996 0 0 0 576 426.34V176.02c0-11.32-11.43-19.06-21.94-14.86z"></path>
                         </svg>
                          行程
                     </div>
                     {#if !$SelectStrokeItem || $userId==$SelectStrokeItem.propertyA#}
-                        <div class="press_button AddGroup" onclick="$(this).parent().parent().hide();$('#add_manarger').show();"><i class="fa fa-fw fa-user-plus"></i> 管理者</div>
+                        <div class="press_button AddGroup" data-target='#add_manarger'>
+                            <i class="fa fa-fw fa-user-plus"></i> 管理者
+                        </div>
                     {#/if#}
-                    <div class="press_button EditGroup" onclick="$(this).parent().parent().hide();$('#add_todo').show();"><i class="fa fa-fw  fa-check-circle-o"></i> 待辦</div>
-                    <div class="press_button EditGroup" onclick="$(this).parent().parent().hide();$('#add_note').show();"><i class="fa fa-fw fa-file-text"></i> 筆記</div>
-                    <div class="press_button EditGroup" onclick="$(this).parent().parent().hide();$('#add_cost').show();"><i class="fa fa-fw fa-credit-card"></i> 記帳</div>
-                    <div class="press_button" onclick="$(this).parent().parent().hide();">取消</div>
+                    <div class="press_button EditGroup" data-target='#add_todo'>
+                        <i class="fa fa-fw  fa-check-circle-o"></i> 待辦
+                    </div>
+                    <div class="press_button EditGroup" data-target='#add_note'>
+                        <i class="fa fa-fw fa-file-text"></i> 筆記
+                    </div>
+                    <div class="press_button EditGroup" data-target='#add_cost'>
+                        <i class="fa fa-fw fa-credit-card"></i> 記帳
+                    </div>
+                    <div class="press_button">取消</div>
                 </div>
             </div>
 
@@ -393,13 +690,11 @@
                 <div id="SearchListArea">
                     <input id="SearchListBtn" type="text" style="" class="form-control" placeholder="輸入要搜尋的店家" onblur="$('#SearchListArea').hide();" onchange="SearchList($(this).val());" onkeyup="SearchList($(this).val());">
                 </div>
-                <div id="MapFrame" class=""></div>
-                <div id="place_list">
-
-                </div>
+                <div id="MapFrame"></div>
+                <div id="place_list"></div>
             </div>
             <div class="signature-pad--footer">
-                <div id="addarea" style="">
+                <div id="addarea">
                     <div id='NoteArea'>
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
@@ -411,9 +706,7 @@
                                     {#/if#}
                                     <div id="SendTripBtn" class="button"><i class="fa fa-fw fa-send"></i></div>
                                 </div>
-                                <div class="swiper-slide" style="display: none;">
-
-                                </div>
+                                <div class="swiper-slide" style="display: none;"></div>
                             </div>
                             <div class="swiper-pagination" style="margin-bottom: -15px;display: none;"></div>
                         </div>
@@ -495,83 +788,1006 @@
                     </div>
 
                     <div id="add_todo" class="EditArea">
-                        <div class="EditHeader" style="background-color: #60c751;color: #fff;">
-                            <i class="fa fa-plus-circle Left" onclick="AddInfo('add_todo');"></i>
-                            <i class="fa fa-save Left" onclick="SaveInfo('add_todo');"></i>
-                            <span>待辦事項列表</span>
-                            <i class="fa fa-close Right" onclick="$(this).parent().parent().hide();"></i>
+                        <div class="EditHeader" style="background-color: #60c751;">
+                            <i class="fa fa-save saveBtn" onclick="SaveInfo('add_todo');"></i>
+                            <span class="group-item">
+                                <span>待辦事項列表</span>
+                            </span>
+                            <i class="fa fa-close closeBtn" onclick="$(this).parent().parent().hide();"></i>
                         </div>
-                        <div class="EditBody">
-                            {#foreach $SelectStrokeItem.subject.todo.item as $key=>$value#}
-                                <div class="" title="待辦事項">
-                                    <i class="fa fa-trash-o" onclick="if(!$(this).parent().find('textarea').val() || confirm('確定要刪除此「'+ $(this).parent().attr('title') +'」嗎?')===true){ $(this).parent().remove(); }"></i>
-                                    <textarea class="form-control" rows="1" placeholder="例：必買伴手禮">{#$SelectStrokeItem.subject.todo.item.$key#}</textarea>
-                                    <input type="checkbox" class="flat-green" {#if $SelectStrokeItem.subject.todo.checked.$key#}checked{#/if#}>
-                                </div>
-                            {#/foreach#}
+                        <div class="EditBody"></div>
+                        <div class="bottomBtnArea">
+                            <i class="fa fa-plus-circle addBtn" onclick="AddInfo('add_todo', {});"></i>
                         </div>
                     </div>
                     <div id="add_note" class="EditArea">
-                        <div class="EditHeader" style="background-color: #56429a;color: #fff;">
-                            <i class="fa fa-plus-circle Left" onclick="AddInfo('add_note');"></i>
-                            <i class="fa fa-save Left" onclick="SaveInfo('add_note');"></i>
-                            <span>行程筆記</span>
-                            <i class="fa fa-close Right" onclick="$(this).parent().parent().hide();"></i>
+                        <div class="EditHeader" style="background-color: #56429a;">
+                            <i class="fa fa-save saveBtn" onclick="SaveInfo('add_note');"></i>
+                            <span class="group-item">
+                                <span>行程筆記</span>
+                            </span>
+                            <i class="fa fa-close closeBtn" onclick="$(this).parent().parent().hide();"></i>
                         </div>
-                        <div class="EditBody">
-                            {#foreach $SelectStrokeItem.subject.note.item as $key=>$value#}
-                                <div class="" title="行程筆記">
-                                    <i class="fa fa-trash-o" onclick="if(!$(this).parent().find('textarea').val() || confirm('確定要刪除此「'+ $(this).parent().attr('title') +'」嗎?')===true){ $(this).parent().remove(); }"></i>
-                                    <textarea class="form-control" rows="1" placeholder="例：伴手禮買了2盒">{#$SelectStrokeItem.subject.note.item.$key#}</textarea>
-                                </div>
-                            {#/foreach#}
+                        <div class="EditBody"></div>
+                        <div class="bottomBtnArea">
+                            <i class="fa fa-plus-circle addBtn" onclick="AddInfo('add_note', {});"></i>
                         </div>
                     </div>
                     <div id="add_cost" class="EditArea">
-                        <div class="EditHeader" style="background-color: #c77551;color: #fff;">
-                            <i class="fa fa-plus-circle Left" onclick="AddInfo('add_cost');"></i>
-                            <i class="fa fa-save Left" onclick="SaveInfo('add_cost');"></i>
-                            <span>消費記帳</span>
-                            <i class="fa fa-close Right" onclick="$(this).parent().parent().hide();"></i>
-                            <div id="costTotalArea" style="background-color: #c77551;color: #fff;">
-                                <span>Total：</span>
-                                <span id="costTotal">0</span>
+                        <div class="EditHeader" style="background-color: #c77551;">
+                            <i class="fa fa-save saveBtn"></i>
+                            <a href="/ft/process/ps/exportCostCsv/id/{#$SelectStroke#}" target="_blank">
+                                <i class="fa fa-cloud-download exportBtn"></i>
+                            </a>
+                            <span class="group-item">
+                                <span>消費記帳</span>
+                                <div class="content">
+                                    <span>Total：</span>
+                                    <span id="costTotal">0</span>
+                                </div>
+                            </span>
+                            <i class="fa fa-search searchBtn"></i>
+                            <i class="fa fa-close closeBtn"></i>
+                        </div>
+                        <div class="EditBody costView list"></div>
+                        <div class="costView chart">
+                            <div>各成員總計</div>
+                            <div class="list">
+                                <div class="editItem-container costItem">
+                                    無
+                                </div>
+                            </div>
+                            <div>消費明細</div>
+                            <div class="detail">
+                                <div class="editItem-container costItem">
+                                    無
+                                </div>
                             </div>
                         </div>
-                        <div class="EditBody">
-                            {#foreach $SelectStrokeItem.subject.cost.item as $key=>$value#}
-                                <div class="" title="消費記帳">
-                                    <i class="fa fa-trash-o" onclick="if((!$(this).parent().find('input[type=text]').val()&&!$(this).parent().find('input[type=number]').val()) || confirm('確定要刪除此「'+ $(this).parent().attr('title') +'」嗎?')===true){ $(this).parent().remove(); }"></i>
-                                    <input type="text" value="{#$SelectStrokeItem.subject.cost.item.$key#}" class="form-control" placeholder="項目" />
-                                    <input type="number" value="{#$SelectStrokeItem.subject.cost.price.$key#}" class="form-control costItem" onchange="updateTotal();" min="0" placeholder="金額" />
+                        <div class="costView repaid">
+                            <div class="reduceList editItem-container costItem"></div>
+                            <div>分帳清單</div>
+                            <div class="list">
+                                <div class="editItem-container costItem">
+                                    無
                                 </div>
-                            {#/foreach#}
+                            </div>
+                            <div>分帳明細</div>
+                            <div class="detail">
+                                <div class="editItem-container costItem">
+                                    無
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottomBtnArea">
+                            <i class="fa fa-plus-circle addBtn" onclick="toggleEditCostArea('view', 'list', true);"></i>
+                            <i class="fa fa-th-list" onclick="toggleCostView('list');"></i>
+                            <i class="fa fa-bar-chart-o" onclick="toggleCostView('chart');"></i>
+                            <i class="fa fa-exchange" onclick="toggleCostView('repaid');"></i>
+                        </div>
+                        <div class="editCostArea">
+                            <div class="inline-form-group">
+                                <span class="group-icon">
+                                    <i class="fa fa-fw fa-tag"></i>
+                                </span>
+                                <div class="form-floating group-item">
+                                    <input type="text" class="form-control" id="costItemDescription" placeholder="例：住宿費">
+                                    <label for="costItemDescription">品項</label>
+                                </div>
+                            </div>
+                            <div class="inline-form-group">
+                                <span class="group-icon">
+                                    <i class="fa fa-fw fa-dollar"></i>
+                                </span>
+                                <div class="form-floating group-item">
+                                    <input type="number" class="form-control" id="costItemPrice" placeholder="例：1000">
+                                    <label for="costItemPrice">金額</label>
+                                </div>
+                            </div>
+                            <div class="inline-form-group">
+                                <span class="group-icon">
+                                    <i class="fa fa-fw fa-file-text-o"></i>
+                                </span>
+                                <div class="form-floating group-item">
+                                    <input type="text" class="form-control" id="costItemNote" placeholder="例：含早餐">
+                                    <label for="costItemNote">備註</label>
+                                </div>
+                            </div>
+                            <div class="inline-form-group">
+                                <span class="group-icon">
+                                    <i class="fa fa-fw fa-map-marker"></i>
+                                </span>
+                                <div class="form-floating group-item">
+                                    <input type="text" class="form-control" id="costItemPlace" placeholder="例：迪士尼">
+                                    <label for="costItemPlace">地點</label>
+                                </div>
+                            </div>
+                            <div class="inline-form-group">
+                                <span class="group-icon">
+                                    <i class="fa fa-fw fa-calendar"></i>
+                                </span>
+                                <div class="form-floating group-item">
+                                    <input type="datetime-local" class="form-control" id="costItemDateTime" placeholder="例：2021-01-01T12:00">
+                                    <label for="costItemDateTime">日期時間</label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="costItemShareType" class="inline-form-group" data-toggle="buttons">
+                                <label for="costItemShareTypeWeight" data-type="weight" class="btn btn-success group-item">
+                                    權重
+                                    <input type="radio" name="costItemShareType" id="costItemShareTypeWeight" value="weight" checked />
+                                </label>
+                                <label for="costItemShareTypePrice" data-type="price" class="btn btn-default group-item">
+                                    金額
+                                    <input type="radio"  name="costItemShareType" id="costItemShareTypePrice" value="price" />
+                                </label>
+                            </div>
+                            <div id="costItemShareMembers"></div>
+                            <div id="toggleEditMemberAreaBtn" class="button btn-sm" data-mode="show" onclick="toggleEditMemberArea($(this).attr('data-mode'));">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div id="editMemberArea" class="mb-3"></div>
+                            <div id="createMemberArea" class="inline-form-group">
+                                <div class="form-floating group-item">
+                                    <input type="text" class="form-control" id="createMemberName" placeholder="請輸入新增成員名稱，例：小明">
+                                    <label for="createMemberName">新增成員名稱</label>
+                                </div>
+                                <span class="group-icon light" onclick="addMember();">
+                                    <i class="fa fa-user-plus"></i>
+                                </span>
+                            </div>
+                            <hr>
                         </div>
                     </div>
-                </div>
-
-                <div class="signature-pad--actions" style="display:none">
-                    <select id="DefaultSubcategory" class="btn_info word_input" style="display: none;">
-                        <option value="">請選擇</option>
-                        {#foreach $subcategory_list as $subcategorykey=>$subcategoryitem#}
-                            {#if $subcategoryitem.propertyB != ''#}
-                                <option value="{#$subcategoryitem.id#}" prevlevel="{#$subcategoryitem.prev#}">{#$subcategoryitem.propertyB#}</option>
-                            {#/if#}
-                        {#/foreach#}
-                    </select>
                 </div>
             </div>
         </div>
 
         <script>
+            var _userList={#json_encode($userList)#},
+                _SelectStrokeList={#json_encode($SelectStrokeList)#},
+                DayCtn=0,
+                NowDayCtn,
+                ChooseWeekDay=new Date().getDay(),
+                weekdayList = ['日', '一', '二', '三', '四', '五', '六'];
+            let members = {#($members) ? json_encode($members) : '{}'#};
+            const todoItem = {#($SelectStrokeItem.subject.todo.item) ? json_encode($SelectStrokeItem.subject.todo.item) : '[]'#};
+            const todoChecked = {#($SelectStrokeItem.subject.todo.checked) ? json_encode($SelectStrokeItem.subject.todo.checked) : '[]'#};
+            const noteItem = {#($SelectStrokeItem.subject.note.item) ? json_encode($SelectStrokeItem.subject.note.item) : '[]'#};
+            const costData = {#($SelectStrokeItem.subject.cost) ? json_encode($SelectStrokeItem.subject.cost) : '{}'#};
+            function loadData(){
+                for(const [key, data] of Object.entries(todoItem)){
+                    AddInfo('add_todo', {
+                        item: data,
+                        checked: todoChecked[key] ? 'checked' : ''
+                    });
+                }
+                for(const [key, data] of Object.entries(noteItem)){
+                    AddInfo('add_note', {
+                        item: data
+                    });
+                }
+                for(const [key, costItem] of Object.entries(costData)){
+                    createCostItem(costItem);
+                }
+            }
+            function delEditItemContainer(obj){
+                const editItemContainer = obj.parents('.editItem-container');
+                const title             = editItemContainer.attr('title');
+                const checkInput        = editItemContainer.find('.checkInput');
+                if(
+                    (checkInput.length>0 && !checkInput.val()) ||
+                    confirm(`確定要刪除此「${title}」嗎?`)===true
+                ){
+                    editItemContainer.remove();
+                }
+            }
+            function toggleEditMember(obj){
+                const memberId = obj.data('id');
+                obj.replaceWith(`
+                <div class="form-floating mb-3">
+                    <input type="text"
+                    class="form-control"
+                    id="editMemberName_${memberId}"
+                    data-id="${memberId}"
+                    value="${members[memberId]}"
+                    onchange="editMember($(this));"
+                >
+                    <label for="editMemberName_${memberId}">編輯成員名稱</label>
+                </div>
+                `);
+            }
+            function addMember(){
+                const memberId = new Date().getTime();
+                const memberName = $('#createMemberName').val();
+                if(!memberName){
+                    return alert('請填寫成員名稱');
+                }
+                if(Object.values(members).indexOf(memberName)>-1){
+                    return alert('成員名稱重複');
+                }
+                members[memberId] = memberName;
+                updateMemebers();
+                $('#createMemberName').val('');
+            }
+            function editMember(obj){
+                const memberId      = obj.data('id');
+                const newMemberName = obj.val();
+                const oldMemberName = members[memberId];
+                if(!newMemberName){
+                    return alert('請填寫成員名稱');
+                }
+                if(Object.values(members).indexOf(newMemberName)>-1){
+                    obj.val(oldMemberName);
+                    return alert('成員名稱重複');
+                }
+                members[memberId] = newMemberName;
+                updateMemebers();
+            }
+            function updateMemebers(){
+                $('#editMemberArea').html('');
+                Object.keys(members).forEach(function(memberId){
+                    $('#editMemberArea').append(`
+                        <div class="inline-form-group" data-id="${memberId}">
+                            <span class="form-control" disabled>${members[memberId]}</span>
+                            <span class="group-icon" onclick="toggleEditMember($(this).parent());">
+                                <i class="fa fa-edit"></i>
+                            </span>
+                        </div>
+                    `);
+                });
+                $('[name="costItemShareType"]:checked').click().change();
+            }
+            function toggleCostView(area, editCost=false){
+                if(area==='list' && !editCost){
+                    $('#add_cost>.EditHeader .exportBtn').css('visibility', 'visible');
+                    $('#add_cost>.EditHeader>.searchBtn').css('visibility', 'visible');
+                }else{
+                    $('#add_cost>.EditHeader .exportBtn').css('visibility', 'hidden');
+                    $('#add_cost>.EditHeader>.searchBtn').css('visibility', 'hidden');
+                }
+                const costViewList = $('#add_cost>.costView.list');
+                const costViewChart = $('#add_cost>.costView.chart');
+                const costViewRepaid = $('#add_cost>.costView.repaid');
+                const bottomBtnArea = $('#add_cost>.bottomBtnArea');
+                const addBtn = bottomBtnArea.find('.addBtn');
+                const listBtn = bottomBtnArea.find('.fa-th-list');
+                const chartBtn = bottomBtnArea.find('.fa-bar-chart-o');
+                const repaidBtn = bottomBtnArea.find('.fa-exchange');
+                $('#add_cost>.costView').hide();
+                bottomBtnArea.find('i').show();
+                addBtn.css('order', 1);
+                if(area === 'list'){
+                    costViewList.show();
+                    listBtn.hide();
+                    chartBtn.css('order', 0);
+                    repaidBtn.css('order', 2);
+                }else if(area === 'chart'){
+                    processCostViewChart();
+                    costViewChart.show();
+                    chartBtn.hide();
+                    listBtn.css('order', 0);
+                    repaidBtn.css('order', 2);
+                }else if(area === 'repaid'){
+                    processCostViewRepaid();
+                    costViewRepaid.show();
+                    repaidBtn.hide();
+                    listBtn.css('order', 0);
+                    chartBtn.css('order', 2);
+                }
+            }
+            function toggleEditCostArea(mode, area='', editCost=false){
+                const editBody = $('#add_cost>.EditBody'),
+                    editCostArea = $('#add_cost>.editCostArea'),
+                    bottomBtnArea = $('#add_cost>.bottomBtnArea');
+                if(mode === 'view'){
+                    toggleCostView('list', editCost);
+                    editBody.find('.editItem-container').removeClass('editing');
+                    editBody.hide();
+                    editCostArea.show();
+                    bottomBtnArea.hide();
+                    toggleEditMemberArea('hide');
+                    resetCostItem();
+                    $('#add_cost>.EditHeader>.saveBtn')
+                        .removeClass('fa-save')
+                        .addClass('fa-check')
+                        .attr('onclick', `AddCostItem();toggleCostView('${area}');`);
+                    $('#add_cost>.EditHeader>.closeBtn')
+                        .attr('onclick', `toggleEditCostArea("hide");toggleCostView('${area}');`);
+                }else if(mode === 'hide'){
+                    toggleCostView('list');
+                    editBody.show();
+                    editBody.find('.editItem').removeClass('editing');
+                    editCostArea.hide();
+                    bottomBtnArea.show();
+                    $('#add_cost>.EditHeader>.saveBtn')
+                        .removeClass('fa-check')
+                        .addClass('fa-save')
+                        .attr('onclick', `SaveInfo('add_cost');`);
+                    $('#add_cost>.EditHeader>.closeBtn')
+                        .attr('onclick', `$('#add_cost').hide();`);
+                }
+            }
+            function processCostViewChart(){
+                const costViewChartDetail = $('#add_cost>.costView.chart>.detail');
+                const costItems = $('#add_cost>.EditBody>.costItem');
+                const users = {
+                    0: {
+                        total: 0,
+                        name: '未分配',
+                    },
+                };
+                costViewChartDetail.html('');
+                costItems.each(function(e) {
+                    const costItem = $(this).find('.data').text();
+                    const data = JSON.parse(costItem);
+                    const payerId = data.payer;
+                    const total = data.totalPrice * 1;
+                    const membersSharePrice = data.membersSharePrice;
+                    let costViewChartDetailItem = '';
+                    if(membersSharePrice && Object.keys(membersSharePrice).length>0){
+                        Object.keys(membersSharePrice).forEach(function(memberId){
+                            if(!users[memberId]){
+                                users[memberId] = {
+                                    total: 0,
+                                    name: members[memberId],
+                                };
+                            }
+                            const price = membersSharePrice[memberId];
+                            if(price===0){
+                                return;
+                            }
+                            users[memberId]['total'] += price;
+                            costViewChartDetailItem += `
+                            <div class="header">
+                                <span class="content">
+                                    <span class="member costViewChartMember ${(memberId==payerId) ? 'payer' : ''}" data-memberId="${memberId}">
+                                        ${members[memberId]}
+                                    </span>
+                                </span>
+                                <span class="content">${formatNumber(price)}</span>
+                            </div>
+                            `;
+                        });
+                    }else{
+                        if(total===0){
+                            return;
+                        }
+                        users[0]['total'] += total;
+                        costViewChartDetailItem += `
+                        <div class="header">
+                            <span class="content">
+                                <span class="member costViewChartMember" data-memberId="0">
+                                    未分配
+                                </span>
+                            </span>
+                            <span class="content">${formatNumber(total)}</span>
+                        </div>
+                        `;
+                    }
+                    if(total===0){
+                        return;
+                    }
+                    const costItemIndex = costItems.index(this);
+                    costViewChartDetail.append(`
+                    <div class="editItem-container costItem costViewChartItem"
+                        onclick="editCost($('#add_cost>.EditBody>.costItem .editBtn').eq(${costItemIndex}), 'view', 'chart');"
+                    >
+                        <div class="header">
+                            <span class="title">${data.description}</span>
+                            <span class="title">${formatNumber(total)}</span>
+                        </div>
+                        ${costViewChartDetailItem}
+                    </div>
+                    `);
+                });
+                processCostViewChartList(users);
+            }
+            function processCostViewChartList(users){
+                const costViewChartList = $('#add_cost>.costView.chart>.list');
+                const costViewChartChecked = [];
+                $('[name="costViewChart"]:checked').each(function(e) {
+                    costViewChartChecked.push($(this).val());
+                });
+                costViewChartList.html('');
+                Object.keys(users).forEach(function(memberId){
+                    const user = users[memberId];
+                    if(user.total===0){
+                        return;
+                    }
+                    const checked = costViewChartChecked.indexOf(memberId) > -1 ? 'checked' : '';
+                    costViewChartList.append(`
+                    <label class="editItem-container costItem">
+                        <div class="header">
+                            <span class="content">
+                                <span>${user.name}</span>
+                            </span>
+                            <span class="title">${formatNumber(user.total)}</span>
+                        </div>
+                        <input type="checkbox"
+                            class="hide"
+                            name="costViewChart"
+                            value="${memberId}"
+                            data-memberId="${memberId}"
+                            ${checked}
+                        >
+                    </label>
+                    `);
+                });
+                $('[name="costViewChart"]').change();
+            }
+            function processCostViewRepaid(){
+                const costViewRepaidDetail = $('#add_cost>.costView.repaid>.detail');
+                const costItems = $('#add_cost>.EditBody>.costItem');
+                const repaidToMembers = {};
+                const reduceRepaidToMembers = {};
+                costViewRepaidDetail.html('');
+                costItems.each(function(e) {
+                    const costItemIndex = costItems.index(this);
+                    const costItemData = $(this).find('.data').text();
+                    const data = JSON.parse(costItemData);
+                    const description = data.description;
+                    const total = data.totalPrice * 1;
+                    const payerId = data.payer;
+                    const membersSharePrice = data.membersSharePrice;
+                    const repaidMembers = data.repaidMembers;
+                    if(!payerId){
+                        return;
+                    }
+                    if(!membersSharePrice || Object.keys(membersSharePrice).length===0){
+                        return;
+                    }
+                    if(!repaidMembers || Object.keys(repaidMembers).length===0){
+                        return;
+                    }
+                    const costItemContainer = $(`
+                    <div class="editItem-container costItem costViewRepaidToPayer"
+                        onclick="editCost($('#add_cost>.EditBody>.costItem .editBtn').eq(${costItemIndex}), 'view', 'repaid');"
+                        data-payerId="${payerId}"
+                    >
+                        <div class="header">
+                            <span class="title">
+                                ${description}
+                            </span>
+                            <span class="content">
+                                <span class="member payer">
+                                    ${members[payerId]}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    `);
+                    Object.keys(membersSharePrice).forEach(function(memberId){
+                        const repaid = repaidMembers[memberId];
+                        const sharePrice = membersSharePrice[memberId];
+                        if(sharePrice===0 || memberId===payerId){
+                            return;
+                        }
+                        if(!reduceRepaidToMembers[payerId]){
+                            reduceRepaidToMembers[payerId] = 0;
+                        }
+                        if(!reduceRepaidToMembers[memberId]){
+                            reduceRepaidToMembers[memberId] = 0;
+                        }
+                        if(!repaidToMembers[memberId]){
+                            repaidToMembers[memberId] = {};
+                        }
+                        if(!repaidToMembers[memberId][payerId]){
+                            repaidToMembers[memberId][payerId] = {
+                                total: 0,
+                                repaid: 0,
+                                paid: 0,
+                            };
+                        }
+                        repaidToMembers[memberId][payerId]['total'] += sharePrice;
+                        if(!repaid){
+                            reduceRepaidToMembers[payerId] += sharePrice;
+                            reduceRepaidToMembers[memberId] -= sharePrice;
+                            repaidToMembers[memberId][payerId]['repaid'] += sharePrice;
+                        }else{
+                            repaidToMembers[memberId][payerId]['paid'] += sharePrice;
+                        }
+                        costItemContainer.append(`
+                        <div class="header">
+                            <span class="content">
+                                <span class="member costViewRepaidToMember" data-memberId="${memberId}">
+                                    ${members[memberId]}
+                                </span>
+                            </span>
+                            <span class="title"
+                                style="color:${repaid?'#60c751':'#c77551'};"
+                            >
+                                ${formatNumber(sharePrice)}
+                            </span>
+                        </div>
+                        `);
+                    });
+                    costViewRepaidDetail.append(costItemContainer);
+                });
+                processCostViewRepaidReduceList(reduceRepaidToMembers);
+                processCostViewRepaidList(repaidToMembers);
+            }
+            function processCostViewRepaidReduceList(reduceRepaidToMembers){
+                const costViewRepaidReduceList = $('#add_cost>.costView.repaid>.reduceList');
+                const debtors = []; // 欠款成員
+                const creditors = []; // 付款成員
+                // 將成員分為負值和正值
+                for (const [memberId, memberAmount] of Object.entries(reduceRepaidToMembers)) {
+                    if (memberAmount < 0) {
+                        debtors.push({ memberId, amount: -memberAmount });
+                    } else if (memberAmount > 0) {
+                        creditors.push({ memberId, amount: memberAmount });
+                    }
+                }
+                costViewRepaidReduceList.html(`<h4>未結清帳務(簡化)</h4>`).hide();
+                let memberCount = 0;
+                // 計算誰要給誰錢
+                for (const debtor of debtors) { // 欠款成員
+                    let remainingDebt = debtor.amount;
+                    for (const creditor of creditors) { // 付款成員
+                        if (remainingDebt <= 0) // 剩餘欠款金額(欠款成員)
+                            break;
+                        const payment = Math.min(remainingDebt, creditor.amount);     
+                        if (payment === 0)
+                            continue;
+                        memberCount += 1;
+                        costViewRepaidReduceList.append(`
+                        <div class="header">
+                            <span class="content">
+                                <span class="member">
+                                    ${members[debtor.memberId]}
+                                </span>
+                                <div class="repaidTo-group payer">
+                                    <i class="fa fa-fw fa-long-arrow-right"></i>
+                                </div>
+                                <span class="member payer">
+                                    ${members[creditor.memberId]}
+                                </span>
+                            </span>
+                            <span class="title">${formatNumber(payment)}</span>
+                        </div>
+                        `);
+                        remainingDebt -= payment; // 更新剩餘欠款金額(欠款成員)
+                        creditor.amount -= payment; // 更新剩餘欠款金額(付款成員)
+                    }
+                }
+                if(memberCount > 0){
+                    costViewRepaidReduceList.show();
+                }
+            }
+            function processCostViewRepaidList(repaidToMembers){
+                const costViewRepaidList = $('#add_cost>.costView.repaid>.list');
+                const costViewRepaidToChecked = [];
+                $('[name="costViewRepaidTo"]:checked').each(function(e) {
+                    costViewRepaidToChecked.push($(this).val());
+                });
+                costViewRepaidList.html('');
+                Object.keys(repaidToMembers).forEach(function(memberId){
+                    const user = repaidToMembers[memberId];
+                    Object.keys(user).forEach(function(payerId){
+                        const total = user[payerId]['total'];
+                        const repaid = user[payerId]['repaid'];
+                        const paid = user[payerId]['paid'];
+                        const repaidToChecked = costViewRepaidToChecked.indexOf(`${memberId}_${payerId}`)>-1 ? 'checked' : ''
+                        costViewRepaidList.append(`
+                        <label class="editItem-container costItem">
+                            <div class="header">
+                                <span class="content">
+                                    <span class="member">
+                                        ${members[memberId]}
+                                    </span>
+                                    <div class="repaidTo-group payer">
+                                        <i class="fa fa-fw fa-long-arrow-right"></i>
+                                    </div>
+                                    <span class="member payer">
+                                        ${members[payerId]}
+                                    </span>
+                                </span>
+                                <span class="vertical-box right">
+                                    <span class="title" style="color:#c77551;">${formatNumber(repaid)}</span>
+                                    <span class="content" style="color:#60c751;">${formatNumber(paid)}</span>
+                                </span>
+                            </div>
+                            <input type="checkbox"
+                                class="hide"
+                                name="costViewRepaidTo"
+                                value="${memberId}_${payerId}"
+                                data-memberId="${memberId}"
+                                data-payerId="${payerId}"
+                                ${repaidToChecked}
+                            >
+                        </label>
+                        `);
+                    });
+                });
+                $('[name="costViewRepaidTo"]').change();
+            }
+            function getLocalDateTime(date='', format = 'yyyy-MM-ddThh:mm'){
+                const now = date ? new Date(date) : new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                let datatime = '';
+                if(format === 'yyyy-MM-dd hh:mm'){
+                    return `${year}-${month}-${day} ${hours}:${minutes}`;
+                }
+                return `${year}-${month}-${day}T${hours}:${minutes}`;
+            }
+            function resetCostItem(){
+                $('#costItemDescription').val('');
+                $('#costItemPrice').val('');
+                $('#costItemNote').val('');
+                $('#costItemPlace').val('');
+                $('#costItemDateTime').val(getLocalDateTime());
+                $('#costItemShareMembers').html('');
+                $('#costItemShareTypeWeight').click().change();
+                $('[name="costItemPayer"]').prop('checked', false).change();
+            }
+            function editCost(obj, mode='view', area='list'){
+                toggleEditCostArea(mode, area);
+                const group = obj.parents('.editItem-container');
+                group.addClass('editing');
+                const dataJson = group.find('.data').text();
+                const data = JSON.parse(dataJson);
+                $('#costItemDescription').val(data.description);
+                $('#costItemPrice').val(data.totalPrice);
+                $('#costItemNote').val(data.note);
+                $('#costItemPlace').val(data.place);
+                $('#costItemDateTime').val(data.datetime);
+                $(`#costItemShareType${data.shareType==='price'?'Price':'Weight'}`).click().change();
+                if(data.shareMembers){
+                    Object.keys(data.shareMembers).forEach(function(memberId){
+                        $(`#costItemShareMember_${memberId}`).val(data.shareMembers[memberId]);
+                    });
+                }
+                if(data.payer){
+                    $(`[name="costItemPayer"][value="${data.payer}"]`).prop('checked', true).change();
+                }
+                if(data.repaidMembers){
+                    Object.keys(data.repaidMembers).forEach(function(memberId){
+                        $(`[name="costItemRepaidList"][value="${memberId}"]`).prop('checked', true);
+                    });
+                }
+            }
+            function AddCostItem(){
+                const editingItemContainer = $('.editItem-container.editing'),
+                    description = $('#costItemDescription').val(),
+                    totalPrice = $('#costItemPrice').val(),
+                    note = $('#costItemNote').val(),
+                    shareType = $('[name="costItemShareType"]:checked').val(),
+                    shareMembers = {},
+                    payer = $('[name="costItemPayer"]:checked').val(),
+                    repaidMembers = {},
+                    place = $('#costItemPlace').val(),
+                    datetime = $('#costItemDateTime').val();
+                let ErrorMsg = [];
+                if(!description){
+                    ErrorMsg.push('請填寫品項');
+                }
+                if(!totalPrice){
+                    ErrorMsg.push('請填寫金額');
+                }else{
+                    totalPrice * 1;
+                }
+                let shareMembersFlag = true;
+                $('#costItemShareMembers>div').each(function(e) {
+                    const memberInput = $(this).find('input');
+                    const memberId = memberInput.data('id');
+                    if(memberInput.length === 0){
+                        return;
+                    }
+                    if(!memberInput.val()){
+                        shareMembersFlag = false;
+                    }
+                    shareMembers[memberId] = memberInput.val();
+                });
+                if(payer && (Object.keys(shareMembers).length===0 || !shareMembersFlag)){
+                    ErrorMsg.push(`請填寫各成員${shareType==='weight'?'權重':'金額'}`);
+                }
+                if(ErrorMsg.length>0){
+                    return alert(ErrorMsg.join('\n'));
+                }
+                let membersSharePrice = getMembersSharePrice(shareType, totalPrice, shareMembers);
+                if(payer){
+                    if(!membersSharePrice.status){
+                        return alert(membersSharePrice.error);
+                    }
+                    $('[name="costItemRepaidList"]').each(function(e) {
+                        const memberInput = $(this);
+                        const memberId = memberInput.val();
+                        if(memberInput.length === 0){
+                            return;
+                        }
+                        if(memberInput.prop('checked')){
+                            repaidMembers[memberId] = true;
+                        }
+                    });
+                }
+                const costItem = {
+                    description         : description,
+                    totalPrice          : totalPrice,
+                    note                : note,
+                    place               : place,
+                    datetime            : datetime,
+                    payer               : payer,
+                    shareType           : shareType,
+                    shareMembers        : shareMembers || {},
+                    membersSharePrice   : membersSharePrice.data || {},
+                    repaidMembers       : repaidMembers || {},
+                };
+                createCostItem(costItem);
+                toggleEditCostArea('hide');
+                $('#costItemDescription').val('');
+                $('#costItemPrice').val('');
+                $('#costItemNote').val('');
+                $('#costItemShareTypeWeight').click().change();
+                $('#costItemShareMembers').html('');
+                if(editingItemContainer.length == 0){
+                    scrollToLast('add_cost');
+                }
+            }
+            function createCostItem(costItem){
+                const details = (costItem.place || costItem.datetime) ? `
+                    <div class="details">
+                        <span>${costItem.place}</span>
+                        <span>${getLocalDateTime(costItem.datetime, 'yyyy-MM-dd hh:mm')}</span>
+                    </div>
+                ` : '';
+                const editingItemContainer = $('.editItem-container.editing');
+                const memberView = Object.keys(costItem.shareMembers).reduce((str, memberId) => {
+                    str += (costItem.shareMembers[memberId] && costItem.shareMembers[memberId]>0 && memberId!=costItem.payer) ? `<span class="member">${members[memberId]}</span>` : '';
+                    return str;
+                }, '');
+                let payerView = '';
+                if(members[costItem.payer]){
+                    payerView += memberView ? `<div class="repaidTo-group payer">
+                        <i class="fa fa-fw fa-long-arrow-right"></i>
+                    </div>` : '';
+                    payerView += `
+                    <span class="member payer">
+                        ${members[costItem.payer]}
+                    </span>
+                    `;
+                }
+                const timestamp = (costItem.datetime) ? new Date(costItem.datetime).getTime().toString().slice(0, -4) : '';
+                const orderStyle = (timestamp) ? `style="order:${timestamp};"` : '';
+                editItemContainer = $(`
+                <div class="editItem-container costItem" title="消費記帳" ${orderStyle}>
+                    <div class="header">
+                        <span class="title">${costItem.description}</span>
+                        <span class="content">${memberView + payerView}</span>
+                    </div>
+                    <div class="body">
+                        <div class="vertical-box left">
+                            <span class="title totalPrice" data-price="${costItem.totalPrice}">${costItem.totalPrice ? formatNumber(costItem.totalPrice) : ''}</span>
+                            <span class="content">${costItem.note}</span>
+                        </div>
+                        <div class="actions">
+                            <i class="fa fa-edit editBtn" onclick="editCost($(this));"></i>
+                            <i class="fa fa-trash" onclick="delEditItemContainer($(this));"></i>
+                        </div>
+                    </div>
+                    ${details}
+                    <span class="hide data">${JSON.stringify(costItem)}</span>
+                </div>
+                `);
+                if(editingItemContainer.length > 0){
+                    editingItemContainer.replaceWith(editItemContainer);
+                }else{
+                    $('#add_cost>.EditBody').append(editItemContainer);
+                }
+                setTimeout(() => {
+                    editItemContainer[0].scrollIntoView({behavior: 'smooth', block: 'end'});
+                }, 0);
+            }
+            function getMembersSharePrice(shareType, totalPrice, shareMembers){
+                const shareTotal = Object.values(shareMembers).reduce((a, b) => a*1+b*1, 0);
+                if(shareType === 'weight'){
+                    if(shareTotal === 0){
+                        return {
+                            status: false,
+                            error: '各成員權重總和不可為0'
+                        };
+                    }
+                    return {
+                        status: true,
+                        data: Object.keys(shareMembers).reduce((obj, key) => {
+                            obj[key] = totalPrice * shareMembers[key] / shareTotal;
+                            return obj;
+                        }, {})
+                    };
+                }else{
+                    if(shareTotal !== totalPrice){
+                        return {
+                            status: false,
+                            error: `總金額與各成員分攤金額總和不符，總金額為${totalPrice}，各成員分攤金額總和為${shareTotal}`
+                        };
+                    }
+                    return {
+                        status: true,
+                        data: Object.keys(shareMembers).reduce((obj, key) => {
+                            obj[key] = shareMembers[key] * 1;
+                            return obj;
+                        }, {})
+                    };
+                }
+            }
+            $(document).on('click', `.searchBtn`, function(event) {
+                const searchBtn = $(this);
+                const searchOldValue = searchBtn.attr('data-value') || '';
+                swal({
+                    title: '搜尋',
+                    text: '請輸入搜尋關鍵字',
+                    input: 'text',
+                    inputValue: searchOldValue,
+                    showCancelButton: true,
+                    confirmButtonText: '搜尋',
+                    cancelButtonText: '取消',
+                }).then((searchInputValue) => {
+                    searchBtn.attr('data-value', searchInputValue);
+                    const costItems = $('#add_cost>.EditBody>.costItem');
+                    costItems.show();
+                    if(!searchInputValue){
+                        return;
+                    }
+                    costItems.hide();
+                    const searchNewValue = searchInputValue.toLowerCase();
+                    costItems.each(function(e) {
+                        const costItem = $(this);
+                        const data = costItem.find('.data').text().toLowerCase();
+                        if(data.indexOf(searchNewValue)>-1){
+                            costItem.show();
+                        }
+                    });
+                });
+            });
+            $(document).on('change', `input[name="costViewChart"]`, function(event) {
+                const members = $(`input[name="costViewChart"]:checked`);
+                if(members.length === 0){
+                    $('.costViewChartItem').show();
+                    return;
+                }
+                $('.costViewChartItem').hide();
+                members.each(function(e) {
+                    const obj = $(this);
+                    const memberId = obj.data('memberid');
+                    $(`.costViewChartItem:has(.costViewChartMember[data-memberid="${memberId}"])`).show();
+                });
+            });
+            $(document).on('change', `input[name="costViewRepaidTo"]`, function(event) {
+                const members = $(`input[name="costViewRepaidTo"]:checked`);
+                if(members.length === 0){
+                    $('.costViewRepaidToPayer').show();
+                    return;
+                }
+                $('.costViewRepaidToPayer').hide();
+                members.each(function(e) {
+                    const obj = $(this);
+                    const memberId = obj.data('memberid');
+                    const payerId = obj.data('payerid');
+                    $(`.costViewRepaidToPayer[data-payerid="${payerId}"]:has(.costViewRepaidToMember[data-memberid="${memberId}"])`).show();
+                });
+            });
+            $(document).on('change', '[name="costItemShareType"]', function(event) {
+                const shareType     = $('[name="costItemShareType"]:checked').val();
+                const payerId       = $('[name="costItemPayer"]:checked').val();
+                const oldShareType  = $('#costItemShareType>label.btn-success').data('type');
+                const isChanged     = oldShareType !== shareType;
+                $('#costItemShareType>label')
+                    .removeClass('btn-success')
+                    .addClass('btn-default');
+                $(`#costItemShareType>label[data-type="${shareType}"]`)
+                    .removeClass('btn-default')
+                    .addClass('btn-success');
+                let costItemShareMembers = $('#costItemShareMembers').clone();
+                costItemShareMembers.html(`
+                <div class="costItem-container title">
+                    <div class="left-panel">
+                        <div class="section-title">成員各別消費比例</div>
+                    </div>
+                    <div class="right-panel">
+                        <div class="section-title">
+                            <i class="fa fa-fw fa-users"></i>
+                            <div class="repaidTo-group">
+                                <i class="fa fa-fw fa-dollar"></i>
+                                <i class="fa fa-fw fa-long-arrow-right"></i>
+                            </div>
+                            <i class="fa fa-fw fa-user-o"></i>
+                        </div>
+                    </div>
+                </div>
+                `);
+                Object.keys(members).forEach(function(memberId){
+                    const memberName = members[memberId];
+                    let oldVal = (!isChanged && $('#costItemShareMember_'+memberId).val()) ? $('#costItemShareMember_'+memberId).val() : '0';
+                    const payerChecked = (payerId === memberId) ? 'checked' : '';
+                    const repaidChecked = $(`[name="costItemRepaidList"][value="${memberId}"`).prop('checked') ? 'checked' : '';
+                    const repaidHide = (!payerId) ? 'hide' : '';
+                    costItemShareMembers.append(`
+                    <div class="costItem-container">
+                        <div class="left-panel">
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" id="costItemShareMember_${memberId}" data-id="${memberId}" min="0" placeholder=" " value="${oldVal}">
+                                <label for="costItemShareMember_${memberId}">${memberName}</label>
+                            </div>
+                        </div>
+                        <div class="right-panel">
+                            <div class="checkbox-container">
+                                <input
+                                    type="checkbox"
+                                    name="costItemPayer"
+                                    class="form-checkbox fontAwesome"
+                                    data-content="&#xf2c0;"
+                                    value="${memberId}"
+                                    ${payerChecked}
+                                >
+                                <input
+                                    type="checkbox"
+                                    name="costItemRepaidList"
+                                    class="form-checkbox fontAwesome ${repaidHide}"
+                                    data-content="&#xf155;"
+                                    value="${memberId}"
+                                    ${repaidChecked}
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                });
+                $('#costItemShareMembers').replaceWith(costItemShareMembers);
+            });
+            $(document).on('change', '[name="costItemPayer"]', function(event) {
+                const nowChecked = $(this).prop('checked');
+                $('[name="costItemPayer"]').prop('checked', false);
+                if(nowChecked){
+                    $(this).prop('checked', true);
+                }
+                $('[name="costItemRepaidList"]').prop('checked', false);
+                const payer = $('[name="costItemPayer"]:checked');
+                const payerId = payer.val();
+                $('[name="costItemRepaidList"]').addClass('hide');
+                if(payer.length > 0){
+                    $(`[name="costItemRepaidList"][value="${payerId}"`).prop('checked', true);
+                    $('[name="costItemRepaidList"]').removeClass('hide');
+                }
+            });
+            $(document).on('change', '[name="costItemRepaidList"]', function(event) {
+                const nowChecked = $(this).prop('checked');
+                const memberId = $(this).val();
+                const payer = $(`[name="costItemPayer"][value="${memberId}"`);
+                if(!nowChecked && payer.prop('checked')){
+                    payer.prop('checked', false).change();
+                }
+            });
+            function toggleEditMemberArea(mode){
+                if(mode === 'show'){
+                    $('#toggleEditMemberAreaBtn').attr('data-mode', 'hide').addClass('active');
+                    $('#editMemberArea').show();
+                    $('#createMemberArea').show();
+                    $('#createMemberName').focus();
+                }else{
+                    $('#toggleEditMemberAreaBtn').attr('data-mode', 'show').removeClass('active');
+                    $('#editMemberArea').hide();
+                    $('#createMemberArea').hide();
+                }
+            }
             function updateTotal(){
                 var total = 0;
-                $('.costItem').each(function(e) {
-                    total += $(this).val()*1;
+                $('#add_cost>.EditBody>.costItem').each(function(e) {
+                    total += $(this).find('.totalPrice').attr('data-price')*1;
                 });
-                $('#costTotal').html(total.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD' }));
+                $('#costTotal').html(formatNumber(total));
             }
-            var _userList={#json_encode($userList)#}, _SelectStrokeList={#json_encode($SelectStrokeList)#}, DayCtn=0, NowDayCtn, ChooseWeekDay=new Date().getDay(), weekdayList = ['日', '一', '二', '三', '四', '五', '六'];
+            function formatNumber(number) {
+                return new Intl.NumberFormat('zh-TW', { 
+                    style: 'currency', 
+                    currency: 'TWD', 
+                    minimumFractionDigits: 0, 
+                    maximumFractionDigits: 0 
+                }).format(Math.round(number*1 || 0));
+            }
             function GetDayShow(Ctn){
                 var DateText, DayShow;
                 if(!$('#ChooseDate').val()){
@@ -697,7 +1913,6 @@
             function AddTrip(obj){
                 var _DayItem = obj.parents('.DayItem');
                 NowDayCtn = _DayItem.attr('DayCtn');
-
                 if($('#ChooseDate').val()){
                     var ChooseDate = new Date($('#ChooseDate').val());
                     ChooseDate.setDate(ChooseDate.getDate()*1+NowDayCtn*1);
@@ -830,28 +2045,37 @@
                     xajax_SaveTrip('{#$userId#}', '{#$SelectStrokeItem.id#}', $('#TripName').val(), $('#ChooseDate').val(), JSON.stringify(SaveTripList));
                 }
             }
-            function AddInfo(action=null){
-                var Html='', EditBody=$('#'+ action +'>.EditBody'), Msg="確定要刪除此「\' + $(this).parent().attr(\'title\') + \'」嗎?";
+            function AddInfo(action, data){
+                let Html = '',
+                    EditBody = $(`#${action}>.EditBody`),
+                    Msg = `確定要刪除此「${$(this).parent().attr('title')}」嗎?`;
                 switch(action){
                     case 'add_todo':
-                        Html = '<div class="" title="待辦事項">\
-                                    <i class="fa fa-trash-o" onclick="if(!$(this).parent().find(\'textarea\').val() || confirm(\''+ Msg +'\')===true){ $(this).parent().remove(); }"></i>\
-                                    <textarea class="form-control" rows="1" placeholder="例：必買伴手禮"></textarea>\
-                                    <input type="checkbox" class="flat-green">\
-                                </div>';
+                        Html = `
+                        <div class="editItem-container" title="待辦事項">
+                            <div class="actions">
+                                <input type="checkbox" class="form-checkbox square" ${data.checked}>
+                            </div>
+                            <div class="description-container">
+                                <textarea class="form-control checkInput" rows="1" placeholder="例：必買伴手禮">${data.item || ''}</textarea>
+                            </div>
+                            <div class="actions">
+                                <i class="fa fa-trash" onclick="delEditItemContainer($(this));"></i>
+                            </div>
+                        </div>
+                        `;
                         break;
                     case 'add_note':
-                        Html = '<div class="" title="行程筆記">\
-                                    <i class="fa fa-trash-o" onclick="if(!$(this).parent().find(\'textarea\').val() || confirm(\''+ Msg +'\')===true){ $(this).parent().remove(); }"></i>\
-                                    <textarea class="form-control" rows="1" placeholder="例：伴手禮買了2盒"></textarea>\
-                                </div>';
-                        break;
-                    case 'add_cost':
-                        Html = '<div class="" title="消費記帳">\
-                                    <i class="fa fa-trash-o" onclick="if((!$(this).parent().find(\'input[type=text]\').val()&&!$(this).parent().find(\'input[type=number]\').val()) || confirm(\''+ Msg +'\')===true){ $(this).parent().remove(); }"></i>\
-                                    <input type="text" class="form-control" placeholder="項目" />\
-                                    <input type="number" class="form-control" min="0" placeholder="金額" />\
-                                </div>';
+                        Html = `
+                        <div class="editItem-container" title="行程筆記">
+                            <div class="description-container">
+                                <textarea class="form-control checkInput" rows="1" placeholder="例：伴手禮買了2盒">${data.item || ''}</textarea>
+                            </div>
+                            <div class="actions">
+                                <i class="fa fa-trash" onclick="delEditItemContainer($(this));"></i>
+                            </div>
+                        </div>
+                        `;
                         break;
                 }
                 if(action && Html){
@@ -860,46 +2084,50 @@
                 }
             }
             function SaveInfo(action=null){
-                var EditBody=$('#'+ action +'>.EditBody').children(), SaveJson={};
-                var saveAction = '';
-                EditBody.each(function(e) {
+                let saveColumn = '',
+                    saveJson = {};
+                if(action === 'add_cost'){
+                    $(`#${action}>.EditBody>`).sort(function(a, b){
+                        return $(a).css('order') - $(b).css('order');
+                    }).appendTo(`#${action}>.EditBody`);
+                }
+                $(`#${action}>.EditBody>`).each(function(e) {
                     switch(action){
                         case 'add_todo':
-                            saveAction = 'todo';
-                            if(!SaveJson['item']){
-                                SaveJson['item'] = [];
-                                SaveJson['checked'] = [];
+                            saveColumn = 'todo';
+                            if(!saveJson['item']){
+                                saveJson['item'] = [];
+                                saveJson['checked'] = [];
                             }
                             if($(this).find('textarea').val()){
-                                SaveJson['item'].push($(this).find('textarea').val());
-                                SaveJson['checked'].push($(this).find('input[type="checkbox"]').prop('checked'));
+                                saveJson['item'].push($(this).find('textarea').val());
+                                saveJson['checked'].push($(this).find('input[type="checkbox"]').prop('checked'));
                             }
                             break;
                         case 'add_note':
-                            saveAction = 'note';
-                            if(!SaveJson['item']){
-                                SaveJson['item'] = [];
+                            saveColumn = 'note';
+                            if(!saveJson['item']){
+                                saveJson['item'] = [];
                             }
                             if($(this).find('textarea').val()){
-                                SaveJson['item'].push($(this).find('textarea').val());
+                                saveJson['item'].push($(this).find('textarea').val());
                             }
                             break;
                         case 'add_cost':
-                            saveAction = 'cost';
-                            if(!SaveJson['item']){
-                                SaveJson['item'] = [];
-                                SaveJson['price'] = [];
-                            }
-                            if($(this).find('input[type="text"]').val()){
-                                SaveJson['item'].push($(this).find('input[type="text"]').val());
-                                SaveJson['price'].push($(this).find('input[type="number"]').val());
+                            saveColumn = 'subject';
+                            saveJson['members'] = members;
+                            const itemDataJson = $(this).find('.data').html();
+                            if(itemDataJson){
+                                if(!saveJson['cost']){
+                                    saveJson['cost'] = [];
+                                }
+                                const itemData = JSON.parse(itemDataJson);
+                                saveJson['cost'].push(itemData);
                             }
                             break;
                     }
                 });
-                if(saveAction){
-                    xajax_SaveInfo('{#$SelectStrokeItem.id#}', saveAction, SaveJson);
-                }
+                xajax_SaveInfo('{#$SelectStrokeItem.id#}', saveColumn, saveJson);
             }
 
             function SearchRecord(Search=''){
@@ -1195,6 +2423,29 @@
         <script>
             var pressFlag = false;
             $(function () {
+                $(document).on('keyup change paste', 'textarea', function(event) {
+                    $(this).css('height', 'auto');
+                    $(this).height(this.scrollHeight - 10);
+                });
+                $(document).on('click', '.press_button', function(event) {
+                    $(this).parents('.press_background').hide();
+                    const target = $(this).data('target');
+                    const targetObj = $(target);
+                    if(target === '#add_place'){
+                        $('#OwnerArea').hide();
+                        $('#ChooseActionArea').hide();
+                        $('#RecordBlockArea').hide();
+                        $('#SearchBlockArea').show();
+                        $('#SearchArea').show();
+                        $('#ShowAction_search').prop('checked', true);
+                        $('#PlaceResult').html('');
+                    }
+                    targetObj.show();
+                    targetObj.find('textarea').change();
+                });
+                toggleEditCostArea('hide');
+                loadData();
+                updateMemebers();
                 updateTotal();
                 var SelectStrokeItem = {#if $SelectStrokeItem.subject.stroke#}{#json_encode($SelectStrokeItem.subject.stroke)#}{#else#}[]{#/if#};
                 if(SelectStrokeItem[0]){
@@ -1780,20 +3031,7 @@
                                 ]
                             }
                         };
-                        var Msg = [
-                            {
-                                "type": "flex",
-                                "altText": AltText,
-                                "contents": MsgJSON
-                            },
-                            {
-                                "type": "flex",
-                                "altText": AltText,
-                                "contents": ActionJSON
-                            },
-                        ];
-                        console.log(JSON.stringify(MsgJSON));
-                        console.log(JSON.stringify(ActionJSON));
+                        var Msg = proccessMsg(AltText, MsgJSON, ActionJSON);
                         swal({
                             type: 'warning',
                             title: '請選擇',
@@ -1814,10 +3052,49 @@
                 }
                 {#if $EditArea#}
                     $('.EditArea').hide();
-                    $('#{#$EditArea#}').show();
+                    $('.press_button[data-target="#{#$EditArea#}"]').click();
                     scrollToLast('{#$EditArea#}');
                 {#/if#}
             });
+            function proccessMsg(AltText, MsgJSON, ActionJSON){
+                let Msg = [],
+                    groupLength = 20;
+                if(MsgJSON.type=='bubble' && MsgJSON.body.contents.length>20){
+                    let msgContents = MsgJSON.body.contents;
+                    let msgContentsLen = msgContents.length;
+                    let msgContentsGroup = [];
+                    let msgContentsGroupLen = Math.ceil(msgContentsLen/groupLength);
+                    for(let i=0;i<msgContentsGroupLen;i++){
+                        msgContentsGroup.push(msgContents.slice(i*groupLength, (i+1)*groupLength));
+                    }
+                    for(let i=0;i<msgContentsGroupLen;i++){
+                        let msgContentsGroupItem = msgContentsGroup[i];
+                        let msgContentsGroupItemLen = msgContentsGroupItem.length;
+                        let msgContentsGroupItemJSON = JSON.parse(JSON.stringify(MsgJSON));
+                        msgContentsGroupItemJSON.header.contents[0].contents[1].contents[1].text
+                            += ' ('+ (i+1) +'/'+ msgContentsGroupLen +')';
+                        msgContentsGroupItemJSON.body.contents = msgContentsGroupItem;
+                        Msg.push({
+                            "type": "flex",
+                            "altText": AltText,
+                            "contents": msgContentsGroupItemJSON
+                        });
+                    }
+                }else{
+                    Msg.push({
+                        "type": "flex",
+                        "altText": AltText,
+                        "contents": MsgJSON
+                    });
+                }
+                Msg.push({
+                    "type": "flex",
+                    "altText": AltText,
+                    "contents": ActionJSON
+                });
+                console.log(JSON.stringify(Msg));
+                return Msg;
+            }
             function AddPress(obj){
                 var hammer = new Hammer(obj);
                 hammer.on('press', function (ev) {
@@ -1854,10 +3131,11 @@
                 location.href = 'line://msg/text/?' + Msg + '{#$__CustomStickers_Web#}/ft/sharenote?module=place&admin=' + userId;//module=xxx
             }
             function scrollToLast(id){
-                if($('#'+id+'>.EditBody>div').eq(-1)[0]){
-                    $('#'+id+'>.EditBody>div').eq(-1)[0].scrollIntoView();
-                    $('#'+id+'>.EditBody>div').eq(-1).find('input[type="text"]').focus();
-                    $('#'+id+'>.EditBody>div').eq(-1).find('textarea').focus();
+                const lastItemObj = $(`#${id}>.EditBody>div`).eq(-1);
+                if(lastItemObj[0]){
+                    lastItemObj[0].scrollIntoView();
+                    lastItemObj.find('input[type="text"]').focus();
+                    lastItemObj.find('textarea').focus();
                 }
             }
         </script>
